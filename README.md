@@ -5,6 +5,9 @@
 Double-click on a patch for details
 - [Version 2.01](2025-05/20250510/index.html)
 
+## Resources
+
+- [Pride flags explained](https://www.volvogroup.com/en/news-and-media/news/2021/jun/lgbtq-pride-flags-and-what-they-stand-for.html)
 
 ## Acknowledgements
 - Bertrand Colombo
