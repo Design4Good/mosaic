@@ -2,8 +2,9 @@
 
 ## Living MOSAICC
 
-Double-click on a patch for details
-- [Version 2.01](2025-05/20250510/index.html)
+[Version 2.01](2025-05/20250510/index.html)
+
+***To see details of each image patch, right-click for a pop-up.***
 
 ## Resources
 
