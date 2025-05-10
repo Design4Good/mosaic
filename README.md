@@ -2,6 +2,7 @@
 
 ## Living MOSAICC
 
+Double-click on a patch for details
 - [Version 2.01](2025-05/20250510/index.html)
 
 
