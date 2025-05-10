@@ -1,9 +1,11 @@
-# MOSAICC
+# MOSAICC - Mosaic of Open Social Activisms, Identity, and Community Celebrated
 
-Stands for **Mosaic of Open Social Activisms, Identity, and Community Celebrated**
+## Living MOSAICC
+
+- [Version 2.01](2025-05/20250510/index.html)
 
 
-Acknowledgements:
+## Acknowledgements
 - Bertrand Colombo
 - Clay Banks
 - [Gayatri D. Malhotra](https://unsplash.com/@gmalhotra), [MPH](https://www.visionaryartcollective.com/artist-directory/gayatri-malhotra)
