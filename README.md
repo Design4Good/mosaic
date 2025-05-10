@@ -1,4 +1,4 @@
-# MOSAICC - Mosaic of Open Social Activisms, Identity, and Community Celebrated
+# MOSAICC - Mosaic of Openness, Social Activisms, Identity, and Community Celebrations
 
 ## Living MOSAICC
 
