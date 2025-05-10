@@ -11,5 +11,5 @@ Acknowledgements:
 - Mana K. Amir, MD
 - Natália Blauth
 - Philip Myrtorp
-- Tatiana Rodriguez-Vera, Vera Photography.
+- Tatiana Rodriguez-Vera, [Vera Photography](https://www.veraphotography.site/)
 - [Tong Su](https://unsplash.com/@tongsu)
