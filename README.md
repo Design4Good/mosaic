@@ -2,9 +2,10 @@
 
 ## Living MOSAICC
 
-[Version 2.01](2025-05/20250510/index.html)
 
 ***To see details of each image patch, right-click for a pop-up.***
+
+To support transparency and engagement, the digital version, [Version 1.01](2025-05/20250510/index.html) allows viewers to zoom into each tile, see the original image in its unmodified form, and in Version 2, trace back to its online source to learn more about its creator and context. 
 
 ## Resources
 
