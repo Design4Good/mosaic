@@ -1,0 +1,665 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"> 
+    <title>Mosaic created by AndreaMosaic</title>
+    <link rel="stylesheet" href="app/leaflet.css" />
+    <link rel="stylesheet" href="app/Control.FullScreen.css" />
+    <link rel="stylesheet" href="app/easy-button.css" />
+    <link rel="stylesheet" href="app/help-table.css" />
+    <link rel="stylesheet" href="app/leaflet-search.css" />
+    <style type="text/css">
+        html, body, #AndreaMosaic {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            background: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="AndreaMosaic"></div>
+    <script src="app/leaflet.js"></script>
+    <script src="app/leafletzoom.js"></script>  
+    <script src="app/Control.FullScreen.js"></script>  
+    <script src="app/easy-button.js"></script>  
+    <script src="app/leaflet-search.js"></script>
+    <script type="application/javascript">
+        // TileArrays is an array of the tiles. It is needed for getPopUpText, getHelpText, getSearchText. Can be null.
+        // Each tileArray item has mandatory the first 4 elements defined as x,y,width,height in pixels of the tile position.
+        // Other elements in the array are optional and custom defined. See getTileObject.
+        // For mosaics with many tiles this array should have as few elements as possible or even not defined at all.
+        // With a very large amount of tiles it is suggested to store this list on the server and retrieve the tile 
+        // on demand in getTileObject.
+        var tileArrays = [
+			// tileX, tileY, tileWidth, tileHeight, tileNr, imageNr, imageUsageCount, imageUrl, imageName, imageExtension
+			[0,0,172,172,107,38,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/gayatri-malhotra-1XAwulZa8kU-unsplash.jpg","gayatri-malhotra-1XAwulZa8kU-unsplash","jpg"],
+			[0,1032,172,172,245,89,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-dtBwi16wgOs-unsplash.jpg","patrick-perkins-dtBwi16wgOs-unsplash","jpg"],
+			[0,1204,172,172,231,85,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/not-us-ortopediatri-cocuk-ortopedi-akademisi-FauvKjQSybk-unsplash.jpg","not-us-ortopediatri-cocuk-ortopedi-akademisi-FauvKjQSybk-unsplash","jpg"],
+			[0,1376,172,172,367,132,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/gayatri-malhotra-GQ3ORLOD8OY-unsplash.jpg","gayatri-malhotra-GQ3ORLOD8OY-unsplash","jpg"],
+			[0,1548,172,172,233,85,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/not-us-ortopediatri-cocuk-ortopedi-akademisi-FauvKjQSybk-unsplash.jpg","not-us-ortopediatri-cocuk-ortopedi-akademisi-FauvKjQSybk-unsplash","jpg"],
+			[0,172,172,172,298,108,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/joshua-hoehne-Axfa9PkrRPQ-unsplash.jpg","joshua-hoehne-Axfa9PkrRPQ-unsplash","jpg"],
+			[0,1720,172,172,123,43,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-tBU1oeYuE78-unsplash.jpg","heather-mount-tBU1oeYuE78-unsplash","jpg"],
+			[0,1892,172,172,124,43,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-tBU1oeYuE78-unsplash.jpg","heather-mount-tBU1oeYuE78-unsplash","jpg"],
+			[0,2064,172,171,339,122,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ehimetalor-akhere-unuabona-PIxYsSw9Rb4-unsplash.jpg","ehimetalor-akhere-unuabona-PIxYsSw9Rb4-unsplash","jpg"],
+			[0,2235,172,169,82,29,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ilia-bronskiy-zis_n-rJvwQ-unsplash.jpg","ilia-bronskiy-zis_n-rJvwQ-unsplash","jpg"],
+			[0,2404,172,169,83,29,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ilia-bronskiy-zis_n-rJvwQ-unsplash.jpg","ilia-bronskiy-zis_n-rJvwQ-unsplash","jpg"],
+			[0,2573,172,169,490,175,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/belinda-fewings-0rF0aJB1jkA-unsplash.jpg","belinda-fewings-0rF0aJB1jkA-unsplash","jpg"],
+			[0,2742,172,169,473,169,2,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/barbara-burgess-Gptwo30wMuc-unsplash.jpg","barbara-burgess-Gptwo30wMuc-unsplash","jpg"],
+			[0,344,172,172,299,108,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/joshua-hoehne-Axfa9PkrRPQ-unsplash.jpg","joshua-hoehne-Axfa9PkrRPQ-unsplash","jpg"],
+			[0,516,172,172,109,38,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/gayatri-malhotra-1XAwulZa8kU-unsplash.jpg","gayatri-malhotra-1XAwulZa8kU-unsplash","jpg"],
+			[0,688,172,172,274,99,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/karollyne-videira-hubert-oF0T1_Vfvbw-unsplash.jpg","karollyne-videira-hubert-oF0T1_Vfvbw-unsplash","jpg"],
+			[0,860,172,172,275,99,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/karollyne-videira-hubert-oF0T1_Vfvbw-unsplash.jpg","karollyne-videira-hubert-oF0T1_Vfvbw-unsplash","jpg"],
+			[1032,0,172,172,111,39,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/gayatri-malhotra-C0hr6kIR_kE-unsplash.jpg","gayatri-malhotra-C0hr6kIR_kE-unsplash","jpg"],
+			[1032,1032,172,172,96,34,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/frankie-cordoba-E3zubhnUvnA-unsplash.jpg","frankie-cordoba-E3zubhnUvnA-unsplash","jpg"],
+			[1032,1204,172,172,47,17,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-_5GA5UtHjGQ-unsplash.jpg","jan-budomo-_5GA5UtHjGQ-unsplash","jpg"],
+			[1032,1376,172,172,17,6,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-2H-834K8NHw-unsplash.jpg","jan-budomo-2H-834K8NHw-unsplash","jpg"],
+			[1032,1548,172,172,380,137,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/chris-j-davis-C8qBA8z74eI-unsplash.jpg","chris-j-davis-C8qBA8z74eI-unsplash","jpg"],
+			[1032,172,172,172,249,91,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-eNJ_N-uiyPw-unsplash.jpg","patrick-perkins-eNJ_N-uiyPw-unsplash","jpg"],
+			[1032,1720,172,172,381,137,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/chris-j-davis-C8qBA8z74eI-unsplash.jpg","chris-j-davis-C8qBA8z74eI-unsplash","jpg"],
+			[1032,1892,172,172,153,55,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mario-verduzco-olbSB-qepUs-unsplash.jpg","mario-verduzco-olbSB-qepUs-unsplash","jpg"],
+			[1032,2064,172,171,332,120,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ehimetalor-akhere-unuabona-M6Bpwmk7YTg-unsplash.jpg","ehimetalor-akhere-unuabona-M6Bpwmk7YTg-unsplash","jpg"],
+			[1032,2235,172,169,457,163,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/pexels-polina-tankilevitch-8609269.jpg","pexels-polina-tankilevitch-8609269","jpg"],
+			[1032,2404,172,169,84,29,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ilia-bronskiy-zis_n-rJvwQ-unsplash.jpg","ilia-bronskiy-zis_n-rJvwQ-unsplash","jpg"],
+			[1032,2573,172,169,88,31,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/frankie-cordoba-09iM5vFo9BE-unsplash.jpg","frankie-cordoba-09iM5vFo9BE-unsplash","jpg"],
+			[1032,2742,172,169,81,28,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ilia-bronskiy-rTXxVtMn8PA-unsplash.jpg","ilia-bronskiy-rTXxVtMn8PA-unsplash","jpg"],
+			[1032,344,172,172,7,3,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-HSQi8fkHk80-unsplash.jpg","jan-budomo-HSQi8fkHk80-unsplash","jpg"],
+			[1032,516,172,172,55,20,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-H_efbdKwvrY-unsplash.jpg","jan-budomo-H_efbdKwvrY-unsplash","jpg"],
+			[1032,688,172,172,465,166,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/reagan-freeman-jRGI2Tu-YlA-unsplash.jpg","reagan-freeman-jRGI2Tu-YlA-unsplash","jpg"],
+			[1032,860,172,172,466,166,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/reagan-freeman-jRGI2Tu-YlA-unsplash.jpg","reagan-freeman-jRGI2Tu-YlA-unsplash","jpg"],
+			[1204,0,172,172,243,89,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-dtBwi16wgOs-unsplash.jpg","patrick-perkins-dtBwi16wgOs-unsplash","jpg"],
+			[1204,1032,172,172,4,2,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jon-tyson-ba5vMkxLzFU-unsplash.jpg","jon-tyson-ba5vMkxLzFU-unsplash","jpg"],
+			[1204,1204,172,172,470,168,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/barbara-burgess-OzW66xAniTE-unsplash.jpg","barbara-burgess-OzW66xAniTE-unsplash","jpg"],
+			[1204,1376,172,172,144,52,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mon-sag-7aNNFP0GWjs-unsplash.jpg","mon-sag-7aNNFP0GWjs-unsplash","jpg"],
+			[1204,1548,172,172,97,34,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/frankie-cordoba-E3zubhnUvnA-unsplash.jpg","frankie-cordoba-E3zubhnUvnA-unsplash","jpg"],
+			[1204,172,172,172,258,94,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/aiden-craver-734d77muxdU-unsplash.jpg","aiden-craver-734d77muxdU-unsplash","jpg"],
+			[1204,1720,172,172,392,141,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/claudio-schwarz-TbrhGmfGYgk-unsplash.jpg","claudio-schwarz-TbrhGmfGYgk-unsplash","jpg"],
+			[1204,1892,172,172,335,121,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ehimetalor-akhere-unuabona-OwMta0L8jpk-unsplash.jpg","ehimetalor-akhere-unuabona-OwMta0L8jpk-unsplash","jpg"],
+			[1204,2064,172,171,246,90,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/pexels-ivan-samkov-6437041.jpg","pexels-ivan-samkov-6437041","jpg"],
+			[1204,2235,172,169,12,4,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-QLIyTJvP00M-unsplash.jpg","jan-budomo-QLIyTJvP00M-unsplash","jpg"],
+			[1204,2404,172,169,347,125,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/erik-torres-6dwKR8bFj60-unsplash.jpg","erik-torres-6dwKR8bFj60-unsplash","jpg"],
+			[1204,2573,172,169,135,48,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/baliente-agency-XQRbhV23Jfc-unsplash.jpg","baliente-agency-XQRbhV23Jfc-unsplash","jpg"],
+			[1204,2742,172,169,137,48,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/baliente-agency-XQRbhV23Jfc-unsplash.jpg","baliente-agency-XQRbhV23Jfc-unsplash","jpg"],
+			[1204,344,172,172,386,139,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/denin-lawley-ZZrNc-sP32Y-unsplash.jpg","denin-lawley-ZZrNc-sP32Y-unsplash","jpg"],
+			[1204,516,172,172,171,61,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mon-sag-6PiAaKDqmOM-unsplash.jpg","mon-sag-6PiAaKDqmOM-unsplash","jpg"],
+			[1204,688,172,172,228,84,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/nk-ni-TnQFnvAfgWw-unsplash.jpg","nk-ni-TnQFnvAfgWw-unsplash","jpg"],
+			[1204,860,172,172,101,36,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ethan-hasenfratz-OPeD0Kb6y_c-unsplash.jpg","ethan-hasenfratz-OPeD0Kb6y_c-unsplash","jpg"],
+			[1376,0,172,172,76,27,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-xSOLAXxS88g-unsplash.jpg","heather-mount-xSOLAXxS88g-unsplash","jpg"],
+			[1376,1032,172,172,482,173,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/berenice-melis-cNKnDxNZ35I-unsplash.jpg","berenice-melis-cNKnDxNZ35I-unsplash","jpg"],
+			[1376,1204,172,172,471,168,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/barbara-burgess-OzW66xAniTE-unsplash.jpg","barbara-burgess-OzW66xAniTE-unsplash","jpg"],
+			[1376,1376,172,172,359,130,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-GmG-_QQrjHA-unsplash.jpg","heather-mount-GmG-_QQrjHA-unsplash","jpg"],
+			[1376,1548,172,172,395,142,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/y-s-BpFyQRGOb2w-unsplash.jpg","y-s-BpFyQRGOb2w-unsplash","jpg"],
+			[1376,172,172,172,404,145,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/simon-daoudi-n3mgvMn-M2I-unsplash.jpg","simon-daoudi-n3mgvMn-M2I-unsplash","jpg"],
+			[1376,1720,172,172,313,114,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/alexander-grey-jU40gA2UDmA-unsplash.jpg","alexander-grey-jU40gA2UDmA-unsplash","jpg"],
+			[1376,1892,172,172,375,135,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/danielle-claude-belanger-J2tMrVcx0WY-unsplash.jpg","danielle-claude-belanger-J2tMrVcx0WY-unsplash","jpg"],
+			[1376,2064,172,171,267,97,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/julia-mouketo-779dtuKJpK8-unsplash.jpg","julia-mouketo-779dtuKJpK8-unsplash","jpg"],
+			[1376,2235,172,169,247,90,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/pexels-ivan-samkov-6437041.jpg","pexels-ivan-samkov-6437041","jpg"],
+			[1376,2404,172,169,72,25,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/honbike-s0EilGkPZc4-unsplash.jpg","honbike-s0EilGkPZc4-unsplash","jpg"],
+			[1376,2573,172,169,277,100,2,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jose-garcia-JUqh1FyBbv4-unsplash.jpg","jose-garcia-JUqh1FyBbv4-unsplash","jpg"],
+			[1376,2742,172,169,443,158,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/redens-desrosiers-RnstlFUS4Rc-unsplash.jpg","redens-desrosiers-RnstlFUS4Rc-unsplash","jpg"],
+			[1376,344,172,172,8,3,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-HSQi8fkHk80-unsplash.jpg","jan-budomo-HSQi8fkHk80-unsplash","jpg"],
+			[1376,516,172,172,316,115,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/aiden-craver-jQJiN9ukkuE-unsplash.jpg","aiden-craver-jQJiN9ukkuE-unsplash","jpg"],
+			[1376,688,172,172,30,11,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-n9iJZFjN_94-unsplash.jpg","jan-budomo-n9iJZFjN_94-unsplash","jpg"],
+			[1376,860,172,172,191,69,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/brandy-wine-fdCRCVegq3w-unsplash.jpg","brandy-wine-fdCRCVegq3w-unsplash","jpg"],
+			[1548,0,172,172,261,95,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/karollyne-videira-hubert-vfrGtBfD5vQ-unsplash.jpg","karollyne-videira-hubert-vfrGtBfD5vQ-unsplash","jpg"],
+			[1548,1032,172,172,139,50,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/nathan-ives-cmMdxXC5uSs-unsplash.jpg","nathan-ives-cmMdxXC5uSs-unsplash","jpg"],
+			[1548,1204,172,172,401,144,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/travis-eden-oISVYlpL2Yg-unsplash.jpg","travis-eden-oISVYlpL2Yg-unsplash","jpg"],
+			[1548,1376,172,172,128,45,1,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-ooCsfLmCeeE-unsplash.jpg","heather-mount-ooCsfLmCeeE-unsplash","jpg"],
+			[1548,1548,172,172,383,138,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/claudio-schwarz-QKvyxICpfH0-unsplash.jpg","claudio-schwarz-QKvyxICpfH0-unsplash","jpg"],
+			[1548,172,172,172,225,83,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-Ankb7ZGb1Gc-unsplash.jpg","patrick-perkins-Ankb7ZGb1Gc-unsplash","jpg"],
+			[1548,1720,172,172,307,111,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/julia-mouketo-79TknMXA-M0-unsplash.jpg","julia-mouketo-79TknMXA-M0-unsplash","jpg"],
+			[1548,1892,172,172,358,129,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-JHYwVm7-2_8-unsplash.jpg","heather-mount-JHYwVm7-2_8-unsplash","jpg"],
+			[1548,2064,172,171,402,144,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/travis-eden-oISVYlpL2Yg-unsplash.jpg","travis-eden-oISVYlpL2Yg-unsplash","jpg"],
+			[1548,2235,172,169,463,165,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/rangi-siebert-soePnHp02SQ-unsplash.jpg","rangi-siebert-soePnHp02SQ-unsplash","jpg"],
+			[1548,2404,172,169,217,79,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/pexels-blue-8562969.jpg","pexels-blue-8562969","jpg"],
+			[1548,2573,172,169,208,76,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/palash-jain-rVz8DcviU3c-unsplash.jpg","palash-jain-rVz8DcviU3c-unsplash","jpg"],
+			[1548,2742,172,169,54,19,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jessica-podraza-ZvNaAGYVlEc-unsplash.jpg","jessica-podraza-ZvNaAGYVlEc-unsplash","jpg"],
+			[1548,344,172,172,222,82,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-5qtFzszcIcI-unsplash.jpg","patrick-perkins-5qtFzszcIcI-unsplash","jpg"],
+			[1548,516,172,172,132,47,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/baliente-agency-0ZGdbEextqA-unsplash.jpg","baliente-agency-0ZGdbEextqA-unsplash","jpg"],
+			[1548,688,172,172,173,62,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mon-sag-KVuF-SCgaGM-unsplash.jpg","mon-sag-KVuF-SCgaGM-unsplash","jpg"],
+			[1548,860,172,172,49,18,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jens-riesenberg-A-DLC-MC_4I-unsplash.jpg","jens-riesenberg-A-DLC-MC_4I-unsplash","jpg"],
+			[172,0,172,172,297,108,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/joshua-hoehne-Axfa9PkrRPQ-unsplash.jpg","joshua-hoehne-Axfa9PkrRPQ-unsplash","jpg"],
+			[172,1032,172,172,66,23,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/in-lieu-in-view-photography-MUCQZE74NME-unsplash.jpg","in-lieu-in-view-photography-MUCQZE74NME-unsplash","jpg"],
+			[172,1204,172,172,122,43,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-tBU1oeYuE78-unsplash.jpg","heather-mount-tBU1oeYuE78-unsplash","jpg"],
+			[172,1376,172,172,232,85,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/not-us-ortopediatri-cocuk-ortopedi-akademisi-FauvKjQSybk-unsplash.jpg","not-us-ortopediatri-cocuk-ortopedi-akademisi-FauvKjQSybk-unsplash","jpg"],
+			[172,1548,172,172,118,41,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-ryLFw0Sp_RA-unsplash.jpg","heather-mount-ryLFw0Sp_RA-unsplash","jpg"],
+			[172,172,172,172,179,64,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/marek-studzinski-2smsQsfre3A-unsplash.jpg","marek-studzinski-2smsQsfre3A-unsplash","jpg"],
+			[172,1720,172,172,469,167,2,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/bertrand-colombo-hm58A-ztiIQ-unsplash.jpg","bertrand-colombo-hm58A-ztiIQ-unsplash","jpg"],
+			[172,1892,172,172,162,58,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mercedes-mehling-icJ0b6-Dzmk-unsplash.jpg","mercedes-mehling-icJ0b6-Dzmk-unsplash","jpg"],
+			[172,2064,172,171,441,158,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/redens-desrosiers-RnstlFUS4Rc-unsplash.jpg","redens-desrosiers-RnstlFUS4Rc-unsplash","jpg"],
+			[172,2235,172,169,156,56,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/markus-winkler-JODMH5e9rds-unsplash.jpg","markus-winkler-JODMH5e9rds-unsplash","jpg"],
+			[172,2404,172,169,157,56,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/markus-winkler-JODMH5e9rds-unsplash.jpg","markus-winkler-JODMH5e9rds-unsplash","jpg"],
+			[172,2573,172,169,400,143,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/zhen-yao-SoTyCEADTgE-unsplash.jpg","zhen-yao-SoTyCEADTgE-unsplash","jpg"],
+			[172,2742,172,169,474,169,2,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/barbara-burgess-Gptwo30wMuc-unsplash.jpg","barbara-burgess-Gptwo30wMuc-unsplash","jpg"],
+			[172,344,172,172,180,64,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/marek-studzinski-2smsQsfre3A-unsplash.jpg","marek-studzinski-2smsQsfre3A-unsplash","jpg"],
+			[172,516,172,172,323,117,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/aiden-frazier-QlSMmPql72A-unsplash.jpg","aiden-frazier-QlSMmPql72A-unsplash","jpg"],
+			[172,688,172,172,324,117,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/aiden-frazier-QlSMmPql72A-unsplash.jpg","aiden-frazier-QlSMmPql72A-unsplash","jpg"],
+			[172,860,172,172,355,128,1,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-6RzCutNSMK4-unsplash.jpg","heather-mount-6RzCutNSMK4-unsplash","jpg"],
+			[1720,0,172,172,362,131,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/guido-coppa-IPhIW5W1GwI-unsplash.jpg","guido-coppa-IPhIW5W1GwI-unsplash","jpg"],
+			[1720,1032,172,172,197,71,1,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/bertrand-colombo-kdjTbALnSm0-unsplash.jpg","bertrand-colombo-kdjTbALnSm0-unsplash","jpg"],
+			[1720,1204,172,172,338,122,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ehimetalor-akhere-unuabona-PIxYsSw9Rb4-unsplash.jpg","ehimetalor-akhere-unuabona-PIxYsSw9Rb4-unsplash","jpg"],
+			[1720,1376,172,172,121,42,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-uISF00TRVbU-unsplash.jpg","heather-mount-uISF00TRVbU-unsplash","jpg"],
+			[1720,1548,172,172,384,138,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/claudio-schwarz-QKvyxICpfH0-unsplash.jpg","claudio-schwarz-QKvyxICpfH0-unsplash","jpg"],
+			[1720,172,172,172,398,143,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/zhen-yao-SoTyCEADTgE-unsplash.jpg","zhen-yao-SoTyCEADTgE-unsplash","jpg"],
+			[1720,1720,172,172,369,133,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/gayatri-malhotra-oZN9qWnayhs-unsplash.jpg","gayatri-malhotra-oZN9qWnayhs-unsplash","jpg"],
+			[1720,1892,172,172,396,142,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/y-s-BpFyQRGOb2w-unsplash.jpg","y-s-BpFyQRGOb2w-unsplash","jpg"],
+			[1720,2064,172,171,176,63,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/nathan-dumlao-06F9Px_PxVI-unsplash.jpg","nathan-dumlao-06F9Px_PxVI-unsplash","jpg"],
+			[1720,2235,172,169,319,116,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/aiden-craver-zpw1s5spZOY-unsplash.jpg","aiden-craver-zpw1s5spZOY-unsplash","jpg"],
+			[1720,2404,172,169,98,35,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/fab-zamp-unZLUnFs8BQ-unsplash.jpg","fab-zamp-unZLUnFs8BQ-unsplash","jpg"],
+			[1720,2573,172,169,100,35,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/fab-zamp-unZLUnFs8BQ-unsplash.jpg","fab-zamp-unZLUnFs8BQ-unsplash","jpg"],
+			[1720,2742,172,169,472,168,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/barbara-burgess-OzW66xAniTE-unsplash.jpg","barbara-burgess-OzW66xAniTE-unsplash","jpg"],
+			[1720,344,172,172,188,67,2,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/meg-VX-53_U3He8-unsplash.jpg","meg-VX-53_U3He8-unsplash","jpg"],
+			[1720,516,172,172,209,77,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/pexels-ivan-samkov-6437346.jpg","pexels-ivan-samkov-6437346","jpg"],
+			[1720,688,172,172,368,133,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/gayatri-malhotra-oZN9qWnayhs-unsplash.jpg","gayatri-malhotra-oZN9qWnayhs-unsplash","jpg"],
+			[1720,860,172,172,149,54,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/nathan-dumlao-aZk8disXKQ4-unsplash.jpg","nathan-dumlao-aZk8disXKQ4-unsplash","jpg"],
+			[1892,0,172,172,43,16,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/james-lee-wtKKPgkbenQ-unsplash.jpg","james-lee-wtKKPgkbenQ-unsplash","jpg"],
+			[1892,1032,172,172,327,118,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/alex-hlaing-YxYdxQjR9r4-unsplash.jpg","alex-hlaing-YxYdxQjR9r4-unsplash","jpg"],
+			[1892,1204,172,172,155,56,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/markus-winkler-JODMH5e9rds-unsplash.jpg","markus-winkler-JODMH5e9rds-unsplash","jpg"],
+			[1892,1376,172,172,181,64,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/marek-studzinski-2smsQsfre3A-unsplash.jpg","marek-studzinski-2smsQsfre3A-unsplash","jpg"],
+			[1892,1548,172,172,223,82,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-5qtFzszcIcI-unsplash.jpg","patrick-perkins-5qtFzszcIcI-unsplash","jpg"],
+			[1892,172,172,172,64,23,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/in-lieu-in-view-photography-MUCQZE74NME-unsplash.jpg","in-lieu-in-view-photography-MUCQZE74NME-unsplash","jpg"],
+			[1892,1720,172,172,331,120,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ehimetalor-akhere-unuabona-M6Bpwmk7YTg-unsplash.jpg","ehimetalor-akhere-unuabona-M6Bpwmk7YTg-unsplash","jpg"],
+			[1892,1892,172,172,13,5,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jon-tyson-_9sq1rxSTvw-unsplash.jpg","jon-tyson-_9sq1rxSTvw-unsplash","jpg"],
+			[1892,2064,172,171,295,107,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mana5280-XblMxB8A6vk-unsplash.jpg","mana5280-XblMxB8A6vk-unsplash","jpg"],
+			[1892,2235,172,169,296,107,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mana5280-XblMxB8A6vk-unsplash.jpg","mana5280-XblMxB8A6vk-unsplash","jpg"],
+			[1892,2404,172,169,99,35,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/fab-zamp-unZLUnFs8BQ-unsplash.jpg","fab-zamp-unZLUnFs8BQ-unsplash","jpg"],
+			[1892,2573,172,169,178,63,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/nathan-dumlao-06F9Px_PxVI-unsplash.jpg","nathan-dumlao-06F9Px_PxVI-unsplash","jpg"],
+			[1892,2742,172,169,38,13,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/iris-oblee-6rEU9L8UgJo-unsplash.jpg","iris-oblee-6rEU9L8UgJo-unsplash","jpg"],
+			[1892,344,172,172,322,117,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/aiden-frazier-QlSMmPql72A-unsplash.jpg","aiden-frazier-QlSMmPql72A-unsplash","jpg"],
+			[1892,516,172,172,214,78,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-dz5q1Ao9ZJU-unsplash.jpg","patrick-perkins-dz5q1Ao9ZJU-unsplash","jpg"],
+			[1892,688,172,172,219,81,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/pexels-mccutcheon-2433140.jpg","pexels-mccutcheon-2433140","jpg"],
+			[1892,860,172,172,120,42,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-uISF00TRVbU-unsplash.jpg","heather-mount-uISF00TRVbU-unsplash","jpg"],
+			[2064,0,172,172,44,16,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/james-lee-wtKKPgkbenQ-unsplash.jpg","james-lee-wtKKPgkbenQ-unsplash","jpg"],
+			[2064,1032,172,172,199,72,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/brian-kyed-f3avUuzMi2U-unsplash.jpg","brian-kyed-f3avUuzMi2U-unsplash","jpg"],
+			[2064,1204,172,172,282,103,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/lewis-guapo-I6PqLR587v8-unsplash.jpg","lewis-guapo-I6PqLR587v8-unsplash","jpg"],
+			[2064,1376,172,172,127,44,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-u8JduLTWE4g-unsplash.jpg","heather-mount-u8JduLTWE4g-unsplash","jpg"],
+			[2064,1548,172,172,200,72,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/brian-kyed-f3avUuzMi2U-unsplash.jpg","brian-kyed-f3avUuzMi2U-unsplash","jpg"],
+			[2064,172,172,172,65,23,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/in-lieu-in-view-photography-MUCQZE74NME-unsplash.jpg","in-lieu-in-view-photography-MUCQZE74NME-unsplash","jpg"],
+			[2064,1720,172,172,435,156,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/polina-portnaya-g9DWWCon4Rs-unsplash.jpg","polina-portnaya-g9DWWCon4Rs-unsplash","jpg"],
+			[2064,1892,172,172,413,148,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/samantha-hare-ftjv4IS51V0-unsplash.jpg","samantha-hare-ftjv4IS51V0-unsplash","jpg"],
+			[2064,2064,172,171,436,156,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/polina-portnaya-g9DWWCon4Rs-unsplash.jpg","polina-portnaya-g9DWWCon4Rs-unsplash","jpg"],
+			[2064,2235,172,169,53,19,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jessica-podraza-ZvNaAGYVlEc-unsplash.jpg","jessica-podraza-ZvNaAGYVlEc-unsplash","jpg"],
+			[2064,2404,172,169,272,98,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/kaitlan-balsam-ycCm6MGLY-8-unsplash.jpg","kaitlan-balsam-ycCm6MGLY-8-unsplash","jpg"],
+			[2064,2573,172,169,269,97,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/julia-mouketo-779dtuKJpK8-unsplash.jpg","julia-mouketo-779dtuKJpK8-unsplash","jpg"],
+			[2064,2742,172,169,464,165,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/rangi-siebert-soePnHp02SQ-unsplash.jpg","rangi-siebert-soePnHp02SQ-unsplash","jpg"],
+			[2064,344,172,172,365,132,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/gayatri-malhotra-GQ3ORLOD8OY-unsplash.jpg","gayatri-malhotra-GQ3ORLOD8OY-unsplash","jpg"],
+			[2064,516,172,172,116,41,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-ryLFw0Sp_RA-unsplash.jpg","heather-mount-ryLFw0Sp_RA-unsplash","jpg"],
+			[2064,688,172,172,468,167,2,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/bertrand-colombo-hm58A-ztiIQ-unsplash.jpg","bertrand-colombo-hm58A-ztiIQ-unsplash","jpg"],
+			[2064,860,172,172,126,44,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-u8JduLTWE4g-unsplash.jpg","heather-mount-u8JduLTWE4g-unsplash","jpg"],
+			[2236,0,172,172,255,93,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/aiden-craver-1nlSQnb6nVc-unsplash.jpg","aiden-craver-1nlSQnb6nVc-unsplash","jpg"],
+			[2236,1032,172,172,389,140,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/claudio-schwarz-NKyIkM83i9Q-unsplash.jpg","claudio-schwarz-NKyIkM83i9Q-unsplash","jpg"],
+			[2236,1204,172,172,143,52,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mon-sag-7aNNFP0GWjs-unsplash.jpg","mon-sag-7aNNFP0GWjs-unsplash","jpg"],
+			[2236,1376,172,172,345,124,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ehimetalor-akhere-unuabona--o0fuIW1WrA-unsplash.jpg","ehimetalor-akhere-unuabona--o0fuIW1WrA-unsplash","jpg"],
+			[2236,1548,172,172,285,104,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/julia-mouketo-1tNv8l6AvJk-unsplash.jpg","julia-mouketo-1tNv8l6AvJk-unsplash","jpg"],
+			[2236,172,172,172,105,37,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/faiza-haji-MP1cRB6CXEc-unsplash.jpg","faiza-haji-MP1cRB6CXEc-unsplash","jpg"],
+			[2236,1720,172,172,314,114,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/alexander-grey-jU40gA2UDmA-unsplash.jpg","alexander-grey-jU40gA2UDmA-unsplash","jpg"],
+			[2236,1892,172,172,288,105,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mana5280-EAHh8HeNRsI-unsplash.jpg","mana5280-EAHh8HeNRsI-unsplash","jpg"],
+			[2236,2064,172,171,462,165,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/rangi-siebert-soePnHp02SQ-unsplash.jpg","rangi-siebert-soePnHp02SQ-unsplash","jpg"],
+			[2236,2235,172,169,248,90,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/pexels-ivan-samkov-6437041.jpg","pexels-ivan-samkov-6437041","jpg"],
+			[2236,2404,172,169,481,172,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/barbara-burgess-qVkhr_EGjGo-unsplash.jpg","barbara-burgess-qVkhr_EGjGo-unsplash","jpg"],
+			[2236,2573,172,169,321,116,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/aiden-craver-zpw1s5spZOY-unsplash.jpg","aiden-craver-zpw1s5spZOY-unsplash","jpg"],
+			[2236,2742,172,169,146,53,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/maximilian-muller-hhtHEaI1wq0-unsplash.jpg","maximilian-muller-hhtHEaI1wq0-unsplash","jpg"],
+			[2236,344,172,172,119,42,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-uISF00TRVbU-unsplash.jpg","heather-mount-uISF00TRVbU-unsplash","jpg"],
+			[2236,516,172,172,138,49,1,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/alexander-mass-qi2TXcvinGM-unsplash.jpg","alexander-mass-qi2TXcvinGM-unsplash","jpg"],
+			[2236,688,172,172,56,20,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-H_efbdKwvrY-unsplash.jpg","jan-budomo-H_efbdKwvrY-unsplash","jpg"],
+			[2236,860,172,172,95,34,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/frankie-cordoba-E3zubhnUvnA-unsplash.jpg","frankie-cordoba-E3zubhnUvnA-unsplash","jpg"],
+			[2408,0,172,172,77,27,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-xSOLAXxS88g-unsplash.jpg","heather-mount-xSOLAXxS88g-unsplash","jpg"],
+			[2408,1032,172,172,390,140,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/claudio-schwarz-NKyIkM83i9Q-unsplash.jpg","claudio-schwarz-NKyIkM83i9Q-unsplash","jpg"],
+			[2408,1204,172,172,344,124,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ehimetalor-akhere-unuabona--o0fuIW1WrA-unsplash.jpg","ehimetalor-akhere-unuabona--o0fuIW1WrA-unsplash","jpg"],
+			[2408,1376,172,172,483,173,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/berenice-melis-cNKnDxNZ35I-unsplash.jpg","berenice-melis-cNKnDxNZ35I-unsplash","jpg"],
+			[2408,1548,172,172,484,173,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/berenice-melis-cNKnDxNZ35I-unsplash.jpg","berenice-melis-cNKnDxNZ35I-unsplash","jpg"],
+			[2408,172,172,172,74,26,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ipse-dixit-2aW8OPwyrL0-unsplash.jpg","ipse-dixit-2aW8OPwyrL0-unsplash","jpg"],
+			[2408,1720,172,172,356,129,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-JHYwVm7-2_8-unsplash.jpg","heather-mount-JHYwVm7-2_8-unsplash","jpg"],
+			[2408,1892,172,172,385,138,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/claudio-schwarz-QKvyxICpfH0-unsplash.jpg","claudio-schwarz-QKvyxICpfH0-unsplash","jpg"],
+			[2408,2064,172,171,287,104,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/julia-mouketo-1tNv8l6AvJk-unsplash.jpg","julia-mouketo-1tNv8l6AvJk-unsplash","jpg"],
+			[2408,2235,172,169,235,86,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/not-us-jacopo-fedi-SlD-05Grg5M-unsplash.jpg","not-us-jacopo-fedi-SlD-05Grg5M-unsplash","jpg"],
+			[2408,2404,172,169,320,116,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/aiden-craver-zpw1s5spZOY-unsplash.jpg","aiden-craver-zpw1s5spZOY-unsplash","jpg"],
+			[2408,2573,172,169,278,101,1,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/karollyne-videira-hubert-Kp0Ub2ad2Dk-unsplash.jpg","karollyne-videira-hubert-Kp0Ub2ad2Dk-unsplash","jpg"],
+			[2408,2742,172,169,147,53,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/maximilian-muller-hhtHEaI1wq0-unsplash.jpg","maximilian-muller-hhtHEaI1wq0-unsplash","jpg"],
+			[2408,344,172,172,432,155,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/tide_trasher_x-Cge7LCL0hVc-unsplash.jpg","tide_trasher_x-Cge7LCL0hVc-unsplash","jpg"],
+			[2408,516,172,172,250,91,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-eNJ_N-uiyPw-unsplash.jpg","patrick-perkins-eNJ_N-uiyPw-unsplash","jpg"],
+			[2408,688,172,172,31,11,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-n9iJZFjN_94-unsplash.jpg","jan-budomo-n9iJZFjN_94-unsplash","jpg"],
+			[2408,860,172,172,192,69,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/brandy-wine-fdCRCVegq3w-unsplash.jpg","brandy-wine-fdCRCVegq3w-unsplash","jpg"],
+			[2580,0,172,172,104,37,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/faiza-haji-MP1cRB6CXEc-unsplash.jpg","faiza-haji-MP1cRB6CXEc-unsplash","jpg"],
+			[2580,1032,172,172,16,6,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-2H-834K8NHw-unsplash.jpg","jan-budomo-2H-834K8NHw-unsplash","jpg"],
+			[2580,1204,172,172,5,2,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jon-tyson-ba5vMkxLzFU-unsplash.jpg","jon-tyson-ba5vMkxLzFU-unsplash","jpg"],
+			[2580,1376,172,172,352,127,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ehimetalor-akhere-unuabona-LxRucJOwqRI-unsplash.jpg","ehimetalor-akhere-unuabona-LxRucJOwqRI-unsplash","jpg"],
+			[2580,1548,172,172,349,126,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/documerica-5z8fGuV36UY-unsplash.jpg","documerica-5z8fGuV36UY-unsplash","jpg"],
+			[2580,172,172,172,328,119,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/alexander-grey-H5mmL4aLW0E-unsplash.jpg","alexander-grey-H5mmL4aLW0E-unsplash","jpg"],
+			[2580,1720,172,172,357,129,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-JHYwVm7-2_8-unsplash.jpg","heather-mount-JHYwVm7-2_8-unsplash","jpg"],
+			[2580,1892,172,172,430,154,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/thiago-rocha-WqM6STtMs-w-unsplash.jpg","thiago-rocha-WqM6STtMs-w-unsplash","jpg"],
+			[2580,2064,172,171,315,114,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/alexander-grey-jU40gA2UDmA-unsplash.jpg","alexander-grey-jU40gA2UDmA-unsplash","jpg"],
+			[2580,2235,172,169,271,98,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/kaitlan-balsam-ycCm6MGLY-8-unsplash.jpg","kaitlan-balsam-ycCm6MGLY-8-unsplash","jpg"],
+			[2580,2404,172,169,177,63,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/nathan-dumlao-06F9Px_PxVI-unsplash.jpg","nathan-dumlao-06F9Px_PxVI-unsplash","jpg"],
+			[2580,2573,172,169,491,176,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/bertrand-colombo-8Eifk_1N5Wk-unsplash.jpg","bertrand-colombo-8Eifk_1N5Wk-unsplash","jpg"],
+			[2580,2742,172,169,333,120,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ehimetalor-akhere-unuabona-M6Bpwmk7YTg-unsplash.jpg","ehimetalor-akhere-unuabona-M6Bpwmk7YTg-unsplash","jpg"],
+			[2580,344,172,172,419,150,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/tide_trasher_x-qMi4L1sCcM8-unsplash.jpg","tide_trasher_x-qMi4L1sCcM8-unsplash","jpg"],
+			[2580,516,172,172,259,94,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/aiden-craver-734d77muxdU-unsplash.jpg","aiden-craver-734d77muxdU-unsplash","jpg"],
+			[2580,688,172,172,453,162,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/raj-tuladhar-VZ2J246wEqE-unsplash.jpg","raj-tuladhar-VZ2J246wEqE-unsplash","jpg"],
+			[2580,860,172,172,193,69,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/brandy-wine-fdCRCVegq3w-unsplash.jpg","brandy-wine-fdCRCVegq3w-unsplash","jpg"],
+			[2752,0,172,172,78,27,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-xSOLAXxS88g-unsplash.jpg","heather-mount-xSOLAXxS88g-unsplash","jpg"],
+			[2752,1032,172,172,206,76,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/palash-jain-rVz8DcviU3c-unsplash.jpg","palash-jain-rVz8DcviU3c-unsplash","jpg"],
+			[2752,1204,172,172,33,12,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jeff-ackley-6oHKXPdPY0o-unsplash.jpg","jeff-ackley-6oHKXPdPY0o-unsplash","jpg"],
+			[2752,1376,172,172,140,50,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/nathan-ives-cmMdxXC5uSs-unsplash.jpg","nathan-ives-cmMdxXC5uSs-unsplash","jpg"],
+			[2752,1548,172,172,39,14,1,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jes-harrison-73Ax7e3CqAU-unsplash.jpg","jes-harrison-73Ax7e3CqAU-unsplash","jpg"],
+			[2752,172,172,172,416,149,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/tide_trasher_x-_ux1Vlivdac-unsplash.jpg","tide_trasher_x-_ux1Vlivdac-unsplash","jpg"],
+			[2752,1720,172,172,224,82,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-5qtFzszcIcI-unsplash.jpg","patrick-perkins-5qtFzszcIcI-unsplash","jpg"],
+			[2752,1892,172,172,270,98,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/kaitlan-balsam-ycCm6MGLY-8-unsplash.jpg","kaitlan-balsam-ycCm6MGLY-8-unsplash","jpg"],
+			[2752,2064,172,171,268,97,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/julia-mouketo-779dtuKJpK8-unsplash.jpg","julia-mouketo-779dtuKJpK8-unsplash","jpg"],
+			[2752,2235,172,169,479,172,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/barbara-burgess-qVkhr_EGjGo-unsplash.jpg","barbara-burgess-qVkhr_EGjGo-unsplash","jpg"],
+			[2752,2404,172,169,376,135,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/danielle-claude-belanger-J2tMrVcx0WY-unsplash.jpg","danielle-claude-belanger-J2tMrVcx0WY-unsplash","jpg"],
+			[2752,2573,172,169,492,176,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/bertrand-colombo-8Eifk_1N5Wk-unsplash.jpg","bertrand-colombo-8Eifk_1N5Wk-unsplash","jpg"],
+			[2752,2742,172,169,397,142,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/y-s-BpFyQRGOb2w-unsplash.jpg","y-s-BpFyQRGOb2w-unsplash","jpg"],
+			[2752,344,172,172,420,150,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/tide_trasher_x-qMi4L1sCcM8-unsplash.jpg","tide_trasher_x-qMi4L1sCcM8-unsplash","jpg"],
+			[2752,516,172,172,237,87,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-fLOe7jT9fXs-unsplash.jpg","patrick-perkins-fLOe7jT9fXs-unsplash","jpg"],
+			[2752,688,172,172,174,62,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mon-sag-KVuF-SCgaGM-unsplash.jpg","mon-sag-KVuF-SCgaGM-unsplash","jpg"],
+			[2752,860,172,172,102,36,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ethan-hasenfratz-OPeD0Kb6y_c-unsplash.jpg","ethan-hasenfratz-OPeD0Kb6y_c-unsplash","jpg"],
+			[2924,0,172,172,256,93,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/aiden-craver-1nlSQnb6nVc-unsplash.jpg","aiden-craver-1nlSQnb6nVc-unsplash","jpg"],
+			[2924,1032,172,172,371,134,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/clay-banks-Tt0kNJtnFNE-unsplash.jpg","clay-banks-Tt0kNJtnFNE-unsplash","jpg"],
+			[2924,1204,172,172,28,10,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-wsDj2EWU2ug-unsplash.jpg","jan-budomo-wsDj2EWU2ug-unsplash","jpg"],
+			[2924,1376,172,172,334,121,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ehimetalor-akhere-unuabona-OwMta0L8jpk-unsplash.jpg","ehimetalor-akhere-unuabona-OwMta0L8jpk-unsplash","jpg"],
+			[2924,1548,172,172,306,111,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/julia-mouketo-79TknMXA-M0-unsplash.jpg","julia-mouketo-79TknMXA-M0-unsplash","jpg"],
+			[2924,172,172,172,113,40,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-Os0KVjYD8fc-unsplash.jpg","heather-mount-Os0KVjYD8fc-unsplash","jpg"],
+			[2924,1720,172,172,308,111,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/julia-mouketo-79TknMXA-M0-unsplash.jpg","julia-mouketo-79TknMXA-M0-unsplash","jpg"],
+			[2924,1892,172,172,431,154,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/thiago-rocha-WqM6STtMs-w-unsplash.jpg","thiago-rocha-WqM6STtMs-w-unsplash","jpg"],
+			[2924,2064,172,171,234,86,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/not-us-jacopo-fedi-SlD-05Grg5M-unsplash.jpg","not-us-jacopo-fedi-SlD-05Grg5M-unsplash","jpg"],
+			[2924,2235,172,169,311,112,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/aiden-craver-MzytRs4j5n4-unsplash.jpg","aiden-craver-MzytRs4j5n4-unsplash","jpg"],
+			[2924,2404,172,169,37,13,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/iris-oblee-6rEU9L8UgJo-unsplash.jpg","iris-oblee-6rEU9L8UgJo-unsplash","jpg"],
+			[2924,2573,172,169,493,176,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/bertrand-colombo-8Eifk_1N5Wk-unsplash.jpg","bertrand-colombo-8Eifk_1N5Wk-unsplash","jpg"],
+			[2924,2742,172,169,148,53,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/maximilian-muller-hhtHEaI1wq0-unsplash.jpg","maximilian-muller-hhtHEaI1wq0-unsplash","jpg"],
+			[2924,344,172,172,377,136,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/danny-burke-H7WB3hXDyNo-unsplash.jpg","danny-burke-H7WB3hXDyNo-unsplash","jpg"],
+			[2924,516,172,172,182,65,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mana5280-XpzVdUN7kR4-unsplash.jpg","mana5280-XpzVdUN7kR4-unsplash","jpg"],
+			[2924,688,172,172,189,67,2,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/meg-VX-53_U3He8-unsplash.jpg","meg-VX-53_U3He8-unsplash","jpg"],
+			[2924,860,172,172,152,55,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mario-verduzco-olbSB-qepUs-unsplash.jpg","mario-verduzco-olbSB-qepUs-unsplash","jpg"],
+			[3096,0,172,172,257,93,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/aiden-craver-1nlSQnb6nVc-unsplash.jpg","aiden-craver-1nlSQnb6nVc-unsplash","jpg"],
+			[3096,1032,172,172,343,124,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ehimetalor-akhere-unuabona--o0fuIW1WrA-unsplash.jpg","ehimetalor-akhere-unuabona--o0fuIW1WrA-unsplash","jpg"],
+			[3096,1204,172,172,372,134,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/clay-banks-Tt0kNJtnFNE-unsplash.jpg","clay-banks-Tt0kNJtnFNE-unsplash","jpg"],
+			[3096,1376,172,172,34,12,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jeff-ackley-6oHKXPdPY0o-unsplash.jpg","jeff-ackley-6oHKXPdPY0o-unsplash","jpg"],
+			[3096,1548,172,172,35,12,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jeff-ackley-6oHKXPdPY0o-unsplash.jpg","jeff-ackley-6oHKXPdPY0o-unsplash","jpg"],
+			[3096,172,172,172,114,40,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-Os0KVjYD8fc-unsplash.jpg","heather-mount-Os0KVjYD8fc-unsplash","jpg"],
+			[3096,1720,172,172,374,135,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/danielle-claude-belanger-J2tMrVcx0WY-unsplash.jpg","danielle-claude-belanger-J2tMrVcx0WY-unsplash","jpg"],
+			[3096,1892,172,172,286,104,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/julia-mouketo-1tNv8l6AvJk-unsplash.jpg","julia-mouketo-1tNv8l6AvJk-unsplash","jpg"],
+			[3096,2064,172,171,14,5,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jon-tyson-_9sq1rxSTvw-unsplash.jpg","jon-tyson-_9sq1rxSTvw-unsplash","jpg"],
+			[3096,2235,172,169,480,172,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/barbara-burgess-qVkhr_EGjGo-unsplash.jpg","barbara-burgess-qVkhr_EGjGo-unsplash","jpg"],
+			[3096,2404,172,169,415,148,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/samantha-hare-ftjv4IS51V0-unsplash.jpg","samantha-hare-ftjv4IS51V0-unsplash","jpg"],
+			[3096,2573,172,169,342,123,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ehimetalor-akhere-unuabona-hvby1QMmlyw-unsplash.jpg","ehimetalor-akhere-unuabona-hvby1QMmlyw-unsplash","jpg"],
+			[3096,2742,172,169,211,77,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/pexels-ivan-samkov-6437346.jpg","pexels-ivan-samkov-6437346","jpg"],
+			[3096,344,172,172,329,119,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/alexander-grey-H5mmL4aLW0E-unsplash.jpg","alexander-grey-H5mmL4aLW0E-unsplash","jpg"],
+			[3096,516,172,172,117,41,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-ryLFw0Sp_RA-unsplash.jpg","heather-mount-ryLFw0Sp_RA-unsplash","jpg"],
+			[3096,688,172,172,184,65,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mana5280-XpzVdUN7kR4-unsplash.jpg","mana5280-XpzVdUN7kR4-unsplash","jpg"],
+			[3096,860,172,172,190,68,1,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mike-von-aBblEwIZgTs-unsplash.jpg","mike-von-aBblEwIZgTs-unsplash","jpg"],
+			[3268,0,171,172,262,95,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/karollyne-videira-hubert-vfrGtBfD5vQ-unsplash.jpg","karollyne-videira-hubert-vfrGtBfD5vQ-unsplash","jpg"],
+			[3268,1032,171,172,429,154,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/thiago-rocha-WqM6STtMs-w-unsplash.jpg","thiago-rocha-WqM6STtMs-w-unsplash","jpg"],
+			[3268,1204,171,172,58,21,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ilia-bronskiy-lFPcEaueZUg-unsplash.jpg","ilia-bronskiy-lFPcEaueZUg-unsplash","jpg"],
+			[3268,1376,171,172,300,109,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/julian-schneiderath-G_BaxV660Sk-unsplash.jpg","julian-schneiderath-G_BaxV660Sk-unsplash","jpg"],
+			[3268,1548,171,172,59,21,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ilia-bronskiy-lFPcEaueZUg-unsplash.jpg","ilia-bronskiy-lFPcEaueZUg-unsplash","jpg"],
+			[3268,172,171,172,67,24,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/in-lieu-in-view-photography-y6_ngywxH28-unsplash.jpg","in-lieu-in-view-photography-y6_ngywxH28-unsplash","jpg"],
+			[3268,1720,171,172,294,107,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mana5280-XblMxB8A6vk-unsplash.jpg","mana5280-XblMxB8A6vk-unsplash","jpg"],
+			[3268,1892,171,172,36,13,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/iris-oblee-6rEU9L8UgJo-unsplash.jpg","iris-oblee-6rEU9L8UgJo-unsplash","jpg"],
+			[3268,2064,171,171,341,123,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ehimetalor-akhere-unuabona-hvby1QMmlyw-unsplash.jpg","ehimetalor-akhere-unuabona-hvby1QMmlyw-unsplash","jpg"],
+			[3268,2235,171,169,414,148,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/samantha-hare-ftjv4IS51V0-unsplash.jpg","samantha-hare-ftjv4IS51V0-unsplash","jpg"],
+			[3268,2404,171,169,354,127,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ehimetalor-akhere-unuabona-LxRucJOwqRI-unsplash.jpg","ehimetalor-akhere-unuabona-LxRucJOwqRI-unsplash","jpg"],
+			[3268,2573,171,169,241,88,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/pexels-charly-louise-531358788-19503767.jpg","pexels-charly-louise-531358788-19503767","jpg"],
+			[3268,2742,171,169,440,157,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/philip-myrtorp-PrvrZNHKBwM-unsplash.jpg","philip-myrtorp-PrvrZNHKBwM-unsplash","jpg"],
+			[3268,344,171,172,378,136,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/danny-burke-H7WB3hXDyNo-unsplash.jpg","danny-burke-H7WB3hXDyNo-unsplash","jpg"],
+			[3268,516,171,172,183,65,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mana5280-XpzVdUN7kR4-unsplash.jpg","mana5280-XpzVdUN7kR4-unsplash","jpg"],
+			[3268,688,171,172,253,92,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-j-CD-cg3qEc-unsplash.jpg","patrick-perkins-j-CD-cg3qEc-unsplash","jpg"],
+			[3268,860,171,172,9,3,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-HSQi8fkHk80-unsplash.jpg","jan-budomo-HSQi8fkHk80-unsplash","jpg"],
+			[3439,0,169,172,363,131,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/guido-coppa-IPhIW5W1GwI-unsplash.jpg","guido-coppa-IPhIW5W1GwI-unsplash","jpg"],
+			[3439,1032,169,172,186,66,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/meg-5aDwQh-JfZo-unsplash.jpg","meg-5aDwQh-JfZo-unsplash","jpg"],
+			[3439,1204,169,172,283,103,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/lewis-guapo-I6PqLR587v8-unsplash.jpg","lewis-guapo-I6PqLR587v8-unsplash","jpg"],
+			[3439,1376,169,172,301,109,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/julian-schneiderath-G_BaxV660Sk-unsplash.jpg","julian-schneiderath-G_BaxV660Sk-unsplash","jpg"],
+			[3439,1548,169,172,302,109,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/julian-schneiderath-G_BaxV660Sk-unsplash.jpg","julian-schneiderath-G_BaxV660Sk-unsplash","jpg"],
+			[3439,172,169,172,115,40,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-Os0KVjYD8fc-unsplash.jpg","heather-mount-Os0KVjYD8fc-unsplash","jpg"],
+			[3439,1720,169,172,310,112,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/aiden-craver-MzytRs4j5n4-unsplash.jpg","aiden-craver-MzytRs4j5n4-unsplash","jpg"],
+			[3439,1892,169,172,289,105,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mana5280-EAHh8HeNRsI-unsplash.jpg","mana5280-EAHh8HeNRsI-unsplash","jpg"],
+			[3439,2064,169,171,216,79,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/pexels-blue-8562969.jpg","pexels-blue-8562969","jpg"],
+			[3439,2235,169,169,57,20,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-H_efbdKwvrY-unsplash.jpg","jan-budomo-H_efbdKwvrY-unsplash","jpg"],
+			[3439,2404,169,169,236,86,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/not-us-jacopo-fedi-SlD-05Grg5M-unsplash.jpg","not-us-jacopo-fedi-SlD-05Grg5M-unsplash","jpg"],
+			[3439,2573,169,169,242,88,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/pexels-charly-louise-531358788-19503767.jpg","pexels-charly-louise-531358788-19503767","jpg"],
+			[3439,2742,169,169,131,46,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/alyssa-baches-FJgC5ho-B9Q-unsplash.jpg","alyssa-baches-FJgC5ho-B9Q-unsplash","jpg"],
+			[3439,344,169,172,330,119,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/alexander-grey-H5mmL4aLW0E-unsplash.jpg","alexander-grey-H5mmL4aLW0E-unsplash","jpg"],
+			[3439,516,169,172,421,150,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/tide_trasher_x-qMi4L1sCcM8-unsplash.jpg","tide_trasher_x-qMi4L1sCcM8-unsplash","jpg"],
+			[3439,688,169,172,260,94,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/aiden-craver-734d77muxdU-unsplash.jpg","aiden-craver-734d77muxdU-unsplash","jpg"],
+			[3439,860,169,172,27,10,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-wsDj2EWU2ug-unsplash.jpg","jan-budomo-wsDj2EWU2ug-unsplash","jpg"],
+			[344,0,172,172,212,78,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-dz5q1Ao9ZJU-unsplash.jpg","patrick-perkins-dz5q1Ao9ZJU-unsplash","jpg"],
+			[344,1032,172,172,165,59,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mikhail-seleznev-xiRxIblAh9Q-unsplash.jpg","mikhail-seleznev-xiRxIblAh9Q-unsplash","jpg"],
+			[344,1204,172,172,161,58,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mercedes-mehling-icJ0b6-Dzmk-unsplash.jpg","mercedes-mehling-icJ0b6-Dzmk-unsplash","jpg"],
+			[344,1376,172,172,418,149,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/tide_trasher_x-_ux1Vlivdac-unsplash.jpg","tide_trasher_x-_ux1Vlivdac-unsplash","jpg"],
+			[344,1548,172,172,205,75,1,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/cdc-FSRxDhA5x5s-unsplash.jpg","cdc-FSRxDhA5x5s-unsplash","jpg"],
+			[344,172,172,172,325,118,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/alex-hlaing-YxYdxQjR9r4-unsplash.jpg","alex-hlaing-YxYdxQjR9r4-unsplash","jpg"],
+			[344,1720,172,172,60,21,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ilia-bronskiy-lFPcEaueZUg-unsplash.jpg","ilia-bronskiy-lFPcEaueZUg-unsplash","jpg"],
+			[344,1892,172,172,145,52,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mon-sag-7aNNFP0GWjs-unsplash.jpg","mon-sag-7aNNFP0GWjs-unsplash","jpg"],
+			[344,2064,172,171,303,110,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/joshua-hoehne---YAKzZcrjw-unsplash.jpg","joshua-hoehne---YAKzZcrjw-unsplash","jpg"],
+			[344,2235,172,169,264,96,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/leemar-gaskin-ZZ6TvYO1WME-unsplash.jpg","leemar-gaskin-ZZ6TvYO1WME-unsplash","jpg"],
+			[344,2404,172,169,265,96,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/leemar-gaskin-ZZ6TvYO1WME-unsplash.jpg","leemar-gaskin-ZZ6TvYO1WME-unsplash","jpg"],
+			[344,2573,172,169,93,33,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/faiza-haji-S--qVgb6e7Y-unsplash.jpg","faiza-haji-S--qVgb6e7Y-unsplash","jpg"],
+			[344,2742,172,169,94,33,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/faiza-haji-S--qVgb6e7Y-unsplash.jpg","faiza-haji-S--qVgb6e7Y-unsplash","jpg"],
+			[344,344,172,172,112,39,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/gayatri-malhotra-C0hr6kIR_kE-unsplash.jpg","gayatri-malhotra-C0hr6kIR_kE-unsplash","jpg"],
+			[344,516,172,172,125,44,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-u8JduLTWE4g-unsplash.jpg","heather-mount-u8JduLTWE4g-unsplash","jpg"],
+			[344,688,172,172,340,123,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ehimetalor-akhere-unuabona-hvby1QMmlyw-unsplash.jpg","ehimetalor-akhere-unuabona-hvby1QMmlyw-unsplash","jpg"],
+			[344,860,172,172,164,59,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mikhail-seleznev-xiRxIblAh9Q-unsplash.jpg","mikhail-seleznev-xiRxIblAh9Q-unsplash","jpg"],
+			[3608,0,169,172,263,95,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/karollyne-videira-hubert-vfrGtBfD5vQ-unsplash.jpg","karollyne-videira-hubert-vfrGtBfD5vQ-unsplash","jpg"],
+			[3608,1032,169,172,317,115,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/aiden-craver-jQJiN9ukkuE-unsplash.jpg","aiden-craver-jQJiN9ukkuE-unsplash","jpg"],
+			[3608,1204,169,172,142,51,1,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/nice-m-nshuti-u1c0Q-hhEhc-unsplash.jpg","nice-m-nshuti-u1c0Q-hhEhc-unsplash","jpg"],
+			[3608,1376,169,172,309,112,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/aiden-craver-MzytRs4j5n4-unsplash.jpg","aiden-craver-MzytRs4j5n4-unsplash","jpg"],
+			[3608,1548,169,172,373,134,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/clay-banks-Tt0kNJtnFNE-unsplash.jpg","clay-banks-Tt0kNJtnFNE-unsplash","jpg"],
+			[3608,172,169,172,485,174,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/bernie-almanzar-GSrYT193lJk-unsplash.jpg","bernie-almanzar-GSrYT193lJk-unsplash","jpg"],
+			[3608,1720,169,172,370,133,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/gayatri-malhotra-oZN9qWnayhs-unsplash.jpg","gayatri-malhotra-oZN9qWnayhs-unsplash","jpg"],
+			[3608,1892,169,172,215,79,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/pexels-blue-8562969.jpg","pexels-blue-8562969","jpg"],
+			[3608,2064,169,171,437,156,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/polina-portnaya-g9DWWCon4Rs-unsplash.jpg","polina-portnaya-g9DWWCon4Rs-unsplash","jpg"],
+			[3608,2235,169,169,393,141,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/claudio-schwarz-TbrhGmfGYgk-unsplash.jpg","claudio-schwarz-TbrhGmfGYgk-unsplash","jpg"],
+			[3608,2404,169,169,444,159,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/robert-harkness-tAxYGeyfuYY-unsplash.jpg","robert-harkness-tAxYGeyfuYY-unsplash","jpg"],
+			[3608,2573,169,169,195,70,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/brittani-burns-98uYQ-KupiE-unsplash.jpg","brittani-burns-98uYQ-KupiE-unsplash","jpg"],
+			[3608,2742,169,169,266,96,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/leemar-gaskin-ZZ6TvYO1WME-unsplash.jpg","leemar-gaskin-ZZ6TvYO1WME-unsplash","jpg"],
+			[3608,344,169,172,417,149,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/tide_trasher_x-_ux1Vlivdac-unsplash.jpg","tide_trasher_x-_ux1Vlivdac-unsplash","jpg"],
+			[3608,516,169,172,379,136,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/danny-burke-H7WB3hXDyNo-unsplash.jpg","danny-burke-H7WB3hXDyNo-unsplash","jpg"],
+			[3608,688,169,172,251,91,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-eNJ_N-uiyPw-unsplash.jpg","patrick-perkins-eNJ_N-uiyPw-unsplash","jpg"],
+			[3608,860,169,172,134,47,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/baliente-agency-0ZGdbEextqA-unsplash.jpg","baliente-agency-0ZGdbEextqA-unsplash","jpg"],
+			[3777,0,169,172,73,26,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ipse-dixit-2aW8OPwyrL0-unsplash.jpg","ipse-dixit-2aW8OPwyrL0-unsplash","jpg"],
+			[3777,1032,169,172,89,32,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/gage-walker-NMksMDahhg4-unsplash.jpg","gage-walker-NMksMDahhg4-unsplash","jpg"],
+			[3777,1204,169,172,412,147,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/tatiana-rodriguez-XyXI9zpxXKo-unsplash.jpg","tatiana-rodriguez-XyXI9zpxXKo-unsplash","jpg"],
+			[3777,1376,169,172,51,18,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jens-riesenberg-A-DLC-MC_4I-unsplash.jpg","jens-riesenberg-A-DLC-MC_4I-unsplash","jpg"],
+			[3777,1548,169,172,318,115,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/aiden-craver-jQJiN9ukkuE-unsplash.jpg","aiden-craver-jQJiN9ukkuE-unsplash","jpg"],
+			[3777,172,169,172,399,143,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/zhen-yao-SoTyCEADTgE-unsplash.jpg","zhen-yao-SoTyCEADTgE-unsplash","jpg"],
+			[3777,1720,169,172,52,19,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jessica-podraza-ZvNaAGYVlEc-unsplash.jpg","jessica-podraza-ZvNaAGYVlEc-unsplash","jpg"],
+			[3777,1892,169,172,290,105,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mana5280-EAHh8HeNRsI-unsplash.jpg","mana5280-EAHh8HeNRsI-unsplash","jpg"],
+			[3777,2064,169,171,409,146,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/thalia-ruiz-2Y5hU4-ZeXU-unsplash.jpg","thalia-ruiz-2Y5hU4-ZeXU-unsplash","jpg"],
+			[3777,2235,169,169,20,7,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-f4wPAh-sdTo-unsplash.jpg","jan-budomo-f4wPAh-sdTo-unsplash","jpg"],
+			[3777,2404,169,169,194,70,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/brittani-burns-98uYQ-KupiE-unsplash.jpg","brittani-burns-98uYQ-KupiE-unsplash","jpg"],
+			[3777,2573,169,169,445,159,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/robert-harkness-tAxYGeyfuYY-unsplash.jpg","robert-harkness-tAxYGeyfuYY-unsplash","jpg"],
+			[3777,2742,169,169,394,141,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/claudio-schwarz-TbrhGmfGYgk-unsplash.jpg","claudio-schwarz-TbrhGmfGYgk-unsplash","jpg"],
+			[3777,344,169,172,244,89,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-dtBwi16wgOs-unsplash.jpg","patrick-perkins-dtBwi16wgOs-unsplash","jpg"],
+			[3777,516,169,172,366,132,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/gayatri-malhotra-GQ3ORLOD8OY-unsplash.jpg","gayatri-malhotra-GQ3ORLOD8OY-unsplash","jpg"],
+			[3777,688,169,172,226,83,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-Ankb7ZGb1Gc-unsplash.jpg","patrick-perkins-Ankb7ZGb1Gc-unsplash","jpg"],
+			[3777,860,169,172,411,147,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/tatiana-rodriguez-XyXI9zpxXKo-unsplash.jpg","tatiana-rodriguez-XyXI9zpxXKo-unsplash","jpg"],
+			[3946,0,169,172,252,92,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-j-CD-cg3qEc-unsplash.jpg","patrick-perkins-j-CD-cg3qEc-unsplash","jpg"],
+			[3946,1032,169,172,425,152,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/sheggeor-laker-_wOzAp0OMEQ-unsplash.jpg","sheggeor-laker-_wOzAp0OMEQ-unsplash","jpg"],
+			[3946,1204,169,172,187,66,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/meg-5aDwQh-JfZo-unsplash.jpg","meg-5aDwQh-JfZo-unsplash","jpg"],
+			[3946,1376,169,172,426,152,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/sheggeor-laker-_wOzAp0OMEQ-unsplash.jpg","sheggeor-laker-_wOzAp0OMEQ-unsplash","jpg"],
+			[3946,1548,169,172,40,15,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jake-schumacher-Hu9AKW10Ez0-unsplash.jpg","jake-schumacher-Hu9AKW10Ez0-unsplash","jpg"],
+			[3946,172,169,172,201,73,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/brian-kyed-kZfyTiP5Ap0-unsplash.jpg","brian-kyed-kZfyTiP5Ap0-unsplash","jpg"],
+			[3946,1720,169,172,476,171,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/barbara-burgess-TlnWON8mdac-unsplash.jpg","barbara-burgess-TlnWON8mdac-unsplash","jpg"],
+			[3946,1892,169,172,353,127,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ehimetalor-akhere-unuabona-LxRucJOwqRI-unsplash.jpg","ehimetalor-akhere-unuabona-LxRucJOwqRI-unsplash","jpg"],
+			[3946,2064,169,171,207,76,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/palash-jain-rVz8DcviU3c-unsplash.jpg","palash-jain-rVz8DcviU3c-unsplash","jpg"],
+			[3946,2235,169,169,458,163,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/pexels-polina-tankilevitch-8609269.jpg","pexels-polina-tankilevitch-8609269","jpg"],
+			[3946,2404,169,169,210,77,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/pexels-ivan-samkov-6437346.jpg","pexels-ivan-samkov-6437346","jpg"],
+			[3946,2573,169,169,196,70,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/brittani-burns-98uYQ-KupiE-unsplash.jpg","brittani-burns-98uYQ-KupiE-unsplash","jpg"],
+			[3946,2742,169,169,422,151,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/saimy-patel-uQQongzkncc-unsplash.jpg","saimy-patel-uQQongzkncc-unsplash","jpg"],
+			[3946,344,169,172,486,174,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/bernie-almanzar-GSrYT193lJk-unsplash.jpg","bernie-almanzar-GSrYT193lJk-unsplash","jpg"],
+			[3946,516,169,172,68,24,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/in-lieu-in-view-photography-y6_ngywxH28-unsplash.jpg","in-lieu-in-view-photography-y6_ngywxH28-unsplash","jpg"],
+			[3946,688,169,172,220,81,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/pexels-mccutcheon-2433140.jpg","pexels-mccutcheon-2433140","jpg"],
+			[3946,860,169,172,85,30,1,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ilia-bronskiy-zmLoX9MB9D0-unsplash.jpg","ilia-bronskiy-zmLoX9MB9D0-unsplash","jpg"],
+			[4115,0,169,172,279,102,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/kevin-turcios-jzp9_Y9_O1I-unsplash.jpg","kevin-turcios-jzp9_Y9_O1I-unsplash","jpg"],
+			[4115,1032,169,172,32,11,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-n9iJZFjN_94-unsplash.jpg","jan-budomo-n9iJZFjN_94-unsplash","jpg"],
+			[4115,1204,169,172,166,59,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mikhail-seleznev-xiRxIblAh9Q-unsplash.jpg","mikhail-seleznev-xiRxIblAh9Q-unsplash","jpg"],
+			[4115,1376,169,172,291,106,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mana5280-gl_ZGbUgG7M-unsplash.jpg","mana5280-gl_ZGbUgG7M-unsplash","jpg"],
+			[4115,1548,169,172,292,106,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mana5280-gl_ZGbUgG7M-unsplash.jpg","mana5280-gl_ZGbUgG7M-unsplash","jpg"],
+			[4115,172,169,172,450,161,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ryunosuke-kikuno-XjgZMgxaztY-unsplash.jpg","ryunosuke-kikuno-XjgZMgxaztY-unsplash","jpg"],
+			[4115,1720,169,172,360,130,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-GmG-_QQrjHA-unsplash.jpg","heather-mount-GmG-_QQrjHA-unsplash","jpg"],
+			[4115,1892,169,172,6,2,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jon-tyson-ba5vMkxLzFU-unsplash.jpg","jon-tyson-ba5vMkxLzFU-unsplash","jpg"],
+			[4115,2064,169,171,19,7,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-f4wPAh-sdTo-unsplash.jpg","jan-budomo-f4wPAh-sdTo-unsplash","jpg"],
+			[4115,2235,169,169,21,7,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-f4wPAh-sdTo-unsplash.jpg","jan-budomo-f4wPAh-sdTo-unsplash","jpg"],
+			[4115,2404,169,169,87,31,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/frankie-cordoba-09iM5vFo9BE-unsplash.jpg","frankie-cordoba-09iM5vFo9BE-unsplash","jpg"],
+			[4115,2573,169,169,382,137,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/chris-j-davis-C8qBA8z74eI-unsplash.jpg","chris-j-davis-C8qBA8z74eI-unsplash","jpg"],
+			[4115,2742,169,169,350,126,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/documerica-5z8fGuV36UY-unsplash.jpg","documerica-5z8fGuV36UY-unsplash","jpg"],
+			[4115,344,169,172,106,37,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/faiza-haji-MP1cRB6CXEc-unsplash.jpg","faiza-haji-MP1cRB6CXEc-unsplash","jpg"],
+			[4115,516,169,172,405,145,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/simon-daoudi-n3mgvMn-M2I-unsplash.jpg","simon-daoudi-n3mgvMn-M2I-unsplash","jpg"],
+			[4115,688,169,172,69,24,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/in-lieu-in-view-photography-y6_ngywxH28-unsplash.jpg","in-lieu-in-view-photography-y6_ngywxH28-unsplash","jpg"],
+			[4115,860,169,172,238,87,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-fLOe7jT9fXs-unsplash.jpg","patrick-perkins-fLOe7jT9fXs-unsplash","jpg"],
+			[4284,0,169,172,158,57,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mercedes-mehling-AqmIcSrg63I-unsplash.jpg","mercedes-mehling-AqmIcSrg63I-unsplash","jpg"],
+			[4284,1032,169,172,218,80,1,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-oLzPii3A_PE-unsplash.jpg","patrick-perkins-oLzPii3A_PE-unsplash","jpg"],
+			[4284,1204,169,172,61,22,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/huma-h-yardim-ZQxQFwvsODY-unsplash.jpg","huma-h-yardim-ZQxQFwvsODY-unsplash","jpg"],
+			[4284,1376,169,172,388,139,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/denin-lawley-ZZrNc-sP32Y-unsplash.jpg","denin-lawley-ZZrNc-sP32Y-unsplash","jpg"],
+			[4284,1548,169,172,293,106,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mana5280-gl_ZGbUgG7M-unsplash.jpg","mana5280-gl_ZGbUgG7M-unsplash","jpg"],
+			[4284,172,169,172,447,160,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/refhad--WhnzDGvQJw-unsplash.jpg","refhad--WhnzDGvQJw-unsplash","jpg"],
+			[4284,1720,169,172,361,130,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/heather-mount-GmG-_QQrjHA-unsplash.jpg","heather-mount-GmG-_QQrjHA-unsplash","jpg"],
+			[4284,1892,169,172,408,146,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/thalia-ruiz-2Y5hU4-ZeXU-unsplash.jpg","thalia-ruiz-2Y5hU4-ZeXU-unsplash","jpg"],
+			[4284,2064,169,171,456,163,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/pexels-polina-tankilevitch-8609269.jpg","pexels-polina-tankilevitch-8609269","jpg"],
+			[4284,2235,169,169,240,88,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/pexels-charly-louise-531358788-19503767.jpg","pexels-charly-louise-531358788-19503767","jpg"],
+			[4284,2404,169,169,348,125,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/erik-torres-6dwKR8bFj60-unsplash.jpg","erik-torres-6dwKR8bFj60-unsplash","jpg"],
+			[4284,2573,169,169,15,5,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jon-tyson-_9sq1rxSTvw-unsplash.jpg","jon-tyson-_9sq1rxSTvw-unsplash","jpg"],
+			[4284,2742,169,169,423,151,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/saimy-patel-uQQongzkncc-unsplash.jpg","saimy-patel-uQQongzkncc-unsplash","jpg"],
+			[4284,344,169,172,202,73,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/brian-kyed-kZfyTiP5Ap0-unsplash.jpg","brian-kyed-kZfyTiP5Ap0-unsplash","jpg"],
+			[4284,516,169,172,488,175,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/belinda-fewings-0rF0aJB1jkA-unsplash.jpg","belinda-fewings-0rF0aJB1jkA-unsplash","jpg"],
+			[4284,688,169,172,487,174,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/bernie-almanzar-GSrYT193lJk-unsplash.jpg","bernie-almanzar-GSrYT193lJk-unsplash","jpg"],
+			[4284,860,169,172,70,25,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/honbike-s0EilGkPZc4-unsplash.jpg","honbike-s0EilGkPZc4-unsplash","jpg"],
+			[4453,0,169,172,159,57,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mercedes-mehling-AqmIcSrg63I-unsplash.jpg","mercedes-mehling-AqmIcSrg63I-unsplash","jpg"],
+			[4453,1032,169,172,71,25,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/honbike-s0EilGkPZc4-unsplash.jpg","honbike-s0EilGkPZc4-unsplash","jpg"],
+			[4453,1204,169,172,239,87,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-fLOe7jT9fXs-unsplash.jpg","patrick-perkins-fLOe7jT9fXs-unsplash","jpg"],
+			[4453,1376,169,172,62,22,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/huma-h-yardim-ZQxQFwvsODY-unsplash.jpg","huma-h-yardim-ZQxQFwvsODY-unsplash","jpg"],
+			[4453,1548,169,172,41,15,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jake-schumacher-Hu9AKW10Ez0-unsplash.jpg","jake-schumacher-Hu9AKW10Ez0-unsplash","jpg"],
+			[4453,172,169,172,448,160,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/refhad--WhnzDGvQJw-unsplash.jpg","refhad--WhnzDGvQJw-unsplash","jpg"],
+			[4453,1720,169,172,407,146,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/thalia-ruiz-2Y5hU4-ZeXU-unsplash.jpg","thalia-ruiz-2Y5hU4-ZeXU-unsplash","jpg"],
+			[4453,1892,169,172,427,152,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/sheggeor-laker-_wOzAp0OMEQ-unsplash.jpg","sheggeor-laker-_wOzAp0OMEQ-unsplash","jpg"],
+			[4453,2064,169,171,284,103,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/lewis-guapo-I6PqLR587v8-unsplash.jpg","lewis-guapo-I6PqLR587v8-unsplash","jpg"],
+			[4453,2235,169,169,163,58,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mercedes-mehling-icJ0b6-Dzmk-unsplash.jpg","mercedes-mehling-icJ0b6-Dzmk-unsplash","jpg"],
+			[4453,2404,169,169,276,100,2,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jose-garcia-JUqh1FyBbv4-unsplash.jpg","jose-garcia-JUqh1FyBbv4-unsplash","jpg"],
+			[4453,2573,169,169,446,159,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/robert-harkness-tAxYGeyfuYY-unsplash.jpg","robert-harkness-tAxYGeyfuYY-unsplash","jpg"],
+			[4453,2742,169,169,424,151,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/saimy-patel-uQQongzkncc-unsplash.jpg","saimy-patel-uQQongzkncc-unsplash","jpg"],
+			[4453,344,169,172,451,161,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ryunosuke-kikuno-XjgZMgxaztY-unsplash.jpg","ryunosuke-kikuno-XjgZMgxaztY-unsplash","jpg"],
+			[4453,516,169,172,75,26,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ipse-dixit-2aW8OPwyrL0-unsplash.jpg","ipse-dixit-2aW8OPwyrL0-unsplash","jpg"],
+			[4453,688,169,172,337,122,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ehimetalor-akhere-unuabona-PIxYsSw9Rb4-unsplash.jpg","ehimetalor-akhere-unuabona-PIxYsSw9Rb4-unsplash","jpg"],
+			[4453,860,169,172,1,1,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jesus-boscan-uk078sotWrc-unsplash.jpg","jesus-boscan-uk078sotWrc-unsplash","jpg"],
+			[4622,0,169,172,167,60,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/maurice-williams-tPX992SVljo-unsplash.jpg","maurice-williams-tPX992SVljo-unsplash","jpg"],
+			[4622,1032,169,172,489,175,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/belinda-fewings-0rF0aJB1jkA-unsplash.jpg","belinda-fewings-0rF0aJB1jkA-unsplash","jpg"],
+			[4622,1204,169,172,3,1,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jesus-boscan-uk078sotWrc-unsplash.jpg","jesus-boscan-uk078sotWrc-unsplash","jpg"],
+			[4622,1376,169,172,221,81,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/pexels-mccutcheon-2433140.jpg","pexels-mccutcheon-2433140","jpg"],
+			[4622,1548,169,172,63,22,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/huma-h-yardim-ZQxQFwvsODY-unsplash.jpg","huma-h-yardim-ZQxQFwvsODY-unsplash","jpg"],
+			[4622,172,169,172,213,78,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-dz5q1Ao9ZJU-unsplash.jpg","patrick-perkins-dz5q1Ao9ZJU-unsplash","jpg"],
+			[4622,1720,169,172,150,54,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/nathan-dumlao-aZk8disXKQ4-unsplash.jpg","nathan-dumlao-aZk8disXKQ4-unsplash","jpg"],
+			[4622,1892,169,172,175,62,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mon-sag-KVuF-SCgaGM-unsplash.jpg","mon-sag-KVuF-SCgaGM-unsplash","jpg"],
+			[4622,2064,169,171,154,55,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mario-verduzco-olbSB-qepUs-unsplash.jpg","mario-verduzco-olbSB-qepUs-unsplash","jpg"],
+			[4622,2235,169,169,141,50,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/nathan-ives-cmMdxXC5uSs-unsplash.jpg","nathan-ives-cmMdxXC5uSs-unsplash","jpg"],
+			[4622,2404,169,169,151,54,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/nathan-dumlao-aZk8disXKQ4-unsplash.jpg","nathan-dumlao-aZk8disXKQ4-unsplash","jpg"],
+			[4622,2573,169,169,91,32,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/gage-walker-NMksMDahhg4-unsplash.jpg","gage-walker-NMksMDahhg4-unsplash","jpg"],
+			[4622,2742,169,169,351,126,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/documerica-5z8fGuV36UY-unsplash.jpg","documerica-5z8fGuV36UY-unsplash","jpg"],
+			[4622,344,169,172,449,160,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/refhad--WhnzDGvQJw-unsplash.jpg","refhad--WhnzDGvQJw-unsplash","jpg"],
+			[4622,516,169,172,452,161,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ryunosuke-kikuno-XjgZMgxaztY-unsplash.jpg","ryunosuke-kikuno-XjgZMgxaztY-unsplash","jpg"],
+			[4622,688,169,172,203,73,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/brian-kyed-kZfyTiP5Ap0-unsplash.jpg","brian-kyed-kZfyTiP5Ap0-unsplash","jpg"],
+			[4622,860,169,172,2,1,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jesus-boscan-uk078sotWrc-unsplash.jpg","jesus-boscan-uk078sotWrc-unsplash","jpg"],
+			[4791,0,169,172,168,60,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/maurice-williams-tPX992SVljo-unsplash.jpg","maurice-williams-tPX992SVljo-unsplash","jpg"],
+			[4791,1032,169,172,406,145,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/simon-daoudi-n3mgvMn-M2I-unsplash.jpg","simon-daoudi-n3mgvMn-M2I-unsplash","jpg"],
+			[4791,1204,169,172,364,131,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/guido-coppa-IPhIW5W1GwI-unsplash.jpg","guido-coppa-IPhIW5W1GwI-unsplash","jpg"],
+			[4791,1376,169,172,45,16,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/james-lee-wtKKPgkbenQ-unsplash.jpg","james-lee-wtKKPgkbenQ-unsplash","jpg"],
+			[4791,1548,169,172,79,28,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ilia-bronskiy-rTXxVtMn8PA-unsplash.jpg","ilia-bronskiy-rTXxVtMn8PA-unsplash","jpg"],
+			[4791,172,169,172,169,60,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/maurice-williams-tPX992SVljo-unsplash.jpg","maurice-williams-tPX992SVljo-unsplash","jpg"],
+			[4791,1720,169,172,312,113,1,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/alexander-grey-9J1NuJ7Dgz4-unsplash.jpg","alexander-grey-9J1NuJ7Dgz4-unsplash","jpg"],
+			[4791,1892,169,172,227,83,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-Ankb7ZGb1Gc-unsplash.jpg","patrick-perkins-Ankb7ZGb1Gc-unsplash","jpg"],
+			[4791,2064,169,171,204,74,1,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/brian-wangenheim-FZe47Ks3z2E-unsplash.jpg","brian-wangenheim-FZe47Ks3z2E-unsplash","jpg"],
+			[4791,2235,169,169,428,153,1,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/taylor-brandon-5sP5aRj3Ac4-unsplash.jpg","taylor-brandon-5sP5aRj3Ac4-unsplash","jpg"],
+			[4791,2404,169,169,336,121,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ehimetalor-akhere-unuabona-OwMta0L8jpk-unsplash.jpg","ehimetalor-akhere-unuabona-OwMta0L8jpk-unsplash","jpg"],
+			[4791,2573,169,169,442,158,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/redens-desrosiers-RnstlFUS4Rc-unsplash.jpg","redens-desrosiers-RnstlFUS4Rc-unsplash","jpg"],
+			[4791,2742,169,169,403,144,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/travis-eden-oISVYlpL2Yg-unsplash.jpg","travis-eden-oISVYlpL2Yg-unsplash","jpg"],
+			[4791,344,169,172,160,57,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mercedes-mehling-AqmIcSrg63I-unsplash.jpg","mercedes-mehling-AqmIcSrg63I-unsplash","jpg"],
+			[4791,516,169,172,280,102,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/kevin-turcios-jzp9_Y9_O1I-unsplash.jpg","kevin-turcios-jzp9_Y9_O1I-unsplash","jpg"],
+			[4791,688,169,172,281,102,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/kevin-turcios-jzp9_Y9_O1I-unsplash.jpg","kevin-turcios-jzp9_Y9_O1I-unsplash","jpg"],
+			[4791,860,169,172,254,92,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/patrick-perkins-j-CD-cg3qEc-unsplash.jpg","patrick-perkins-j-CD-cg3qEc-unsplash","jpg"],
+			[516,0,172,172,108,38,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/gayatri-malhotra-1XAwulZa8kU-unsplash.jpg","gayatri-malhotra-1XAwulZa8kU-unsplash","jpg"],
+			[516,1032,172,172,103,36,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ethan-hasenfratz-OPeD0Kb6y_c-unsplash.jpg","ethan-hasenfratz-OPeD0Kb6y_c-unsplash","jpg"],
+			[516,1204,172,172,467,166,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/reagan-freeman-jRGI2Tu-YlA-unsplash.jpg","reagan-freeman-jRGI2Tu-YlA-unsplash","jpg"],
+			[516,1376,172,172,10,4,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-QLIyTJvP00M-unsplash.jpg","jan-budomo-QLIyTJvP00M-unsplash","jpg"],
+			[516,1548,172,172,460,164,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/raj-tuladhar-w9mWDIHOESE-unsplash.jpg","raj-tuladhar-w9mWDIHOESE-unsplash","jpg"],
+			[516,172,172,172,326,118,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/alex-hlaing-YxYdxQjR9r4-unsplash.jpg","alex-hlaing-YxYdxQjR9r4-unsplash","jpg"],
+			[516,1720,172,172,48,17,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-_5GA5UtHjGQ-unsplash.jpg","jan-budomo-_5GA5UtHjGQ-unsplash","jpg"],
+			[516,1892,172,172,477,171,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/barbara-burgess-TlnWON8mdac-unsplash.jpg","barbara-burgess-TlnWON8mdac-unsplash","jpg"],
+			[516,2064,172,171,42,15,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jake-schumacher-Hu9AKW10Ez0-unsplash.jpg","jake-schumacher-Hu9AKW10Ez0-unsplash","jpg"],
+			[516,2235,172,169,346,125,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/erik-torres-6dwKR8bFj60-unsplash.jpg","erik-torres-6dwKR8bFj60-unsplash","jpg"],
+			[516,2404,172,169,129,46,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/alyssa-baches-FJgC5ho-B9Q-unsplash.jpg","alyssa-baches-FJgC5ho-B9Q-unsplash","jpg"],
+			[516,2573,172,169,438,157,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/philip-myrtorp-PrvrZNHKBwM-unsplash.jpg","philip-myrtorp-PrvrZNHKBwM-unsplash","jpg"],
+			[516,2742,172,169,136,48,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/baliente-agency-XQRbhV23Jfc-unsplash.jpg","baliente-agency-XQRbhV23Jfc-unsplash","jpg"],
+			[516,344,172,172,459,164,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/raj-tuladhar-w9mWDIHOESE-unsplash.jpg","raj-tuladhar-w9mWDIHOESE-unsplash","jpg"],
+			[516,516,172,172,170,61,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mon-sag-6PiAaKDqmOM-unsplash.jpg","mon-sag-6PiAaKDqmOM-unsplash","jpg"],
+			[516,688,172,172,172,61,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/mon-sag-6PiAaKDqmOM-unsplash.jpg","mon-sag-6PiAaKDqmOM-unsplash","jpg"],
+			[516,860,172,172,25,9,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-ObP2-rbk1BQ-unsplash.jpg","jan-budomo-ObP2-rbk1BQ-unsplash","jpg"],
+			[688,0,172,172,273,99,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/karollyne-videira-hubert-oF0T1_Vfvbw-unsplash.jpg","karollyne-videira-hubert-oF0T1_Vfvbw-unsplash","jpg"],
+			[688,1032,172,172,455,162,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/raj-tuladhar-VZ2J246wEqE-unsplash.jpg","raj-tuladhar-VZ2J246wEqE-unsplash","jpg"],
+			[688,1204,172,172,229,84,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/nk-ni-TnQFnvAfgWw-unsplash.jpg","nk-ni-TnQFnvAfgWw-unsplash","jpg"],
+			[688,1376,172,172,11,4,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-QLIyTJvP00M-unsplash.jpg","jan-budomo-QLIyTJvP00M-unsplash","jpg"],
+			[688,1548,172,172,461,164,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/raj-tuladhar-w9mWDIHOESE-unsplash.jpg","raj-tuladhar-w9mWDIHOESE-unsplash","jpg"],
+			[688,172,172,172,475,170,1,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/barbara-burgess-_gf7LV6NVIo-unsplash.jpg","barbara-burgess-_gf7LV6NVIo-unsplash","jpg"],
+			[688,1720,172,172,22,8,2,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-OVfwNqvdhhE-unsplash.jpg","jan-budomo-OVfwNqvdhhE-unsplash","jpg"],
+			[688,1892,172,172,478,171,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/barbara-burgess-TlnWON8mdac-unsplash.jpg","barbara-burgess-TlnWON8mdac-unsplash","jpg"],
+			[688,2064,172,171,92,33,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/faiza-haji-S--qVgb6e7Y-unsplash.jpg","faiza-haji-S--qVgb6e7Y-unsplash","jpg"],
+			[688,2235,172,169,433,155,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/tide_trasher_x-Cge7LCL0hVc-unsplash.jpg","tide_trasher_x-Cge7LCL0hVc-unsplash","jpg"],
+			[688,2404,172,169,130,46,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/alyssa-baches-FJgC5ho-B9Q-unsplash.jpg","alyssa-baches-FJgC5ho-B9Q-unsplash","jpg"],
+			[688,2573,172,169,439,157,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/philip-myrtorp-PrvrZNHKBwM-unsplash.jpg","philip-myrtorp-PrvrZNHKBwM-unsplash","jpg"],
+			[688,2742,172,169,80,28,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/ilia-bronskiy-rTXxVtMn8PA-unsplash.jpg","ilia-bronskiy-rTXxVtMn8PA-unsplash","jpg"],
+			[688,344,172,172,185,66,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/meg-5aDwQh-JfZo-unsplash.jpg","meg-5aDwQh-JfZo-unsplash","jpg"],
+			[688,516,172,172,46,17,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-_5GA5UtHjGQ-unsplash.jpg","jan-budomo-_5GA5UtHjGQ-unsplash","jpg"],
+			[688,688,172,172,24,9,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-ObP2-rbk1BQ-unsplash.jpg","jan-budomo-ObP2-rbk1BQ-unsplash","jpg"],
+			[688,860,172,172,454,162,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/raj-tuladhar-VZ2J246wEqE-unsplash.jpg","raj-tuladhar-VZ2J246wEqE-unsplash","jpg"],
+			[860,0,172,172,110,39,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/gayatri-malhotra-C0hr6kIR_kE-unsplash.jpg","gayatri-malhotra-C0hr6kIR_kE-unsplash","jpg"],
+			[860,1032,172,172,50,18,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jens-riesenberg-A-DLC-MC_4I-unsplash.jpg","jens-riesenberg-A-DLC-MC_4I-unsplash","jpg"],
+			[860,1204,172,172,230,84,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/nk-ni-TnQFnvAfgWw-unsplash.jpg","nk-ni-TnQFnvAfgWw-unsplash","jpg"],
+			[860,1376,172,172,90,32,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/gage-walker-NMksMDahhg4-unsplash.jpg","gage-walker-NMksMDahhg4-unsplash","jpg"],
+			[860,1548,172,172,18,6,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-2H-834K8NHw-unsplash.jpg","jan-budomo-2H-834K8NHw-unsplash","jpg"],
+			[860,172,172,172,198,72,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/brian-kyed-f3avUuzMi2U-unsplash.jpg","brian-kyed-f3avUuzMi2U-unsplash","jpg"],
+			[860,1720,172,172,23,8,2,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-OVfwNqvdhhE-unsplash.jpg","jan-budomo-OVfwNqvdhhE-unsplash","jpg"],
+			[860,1892,172,172,391,140,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/claudio-schwarz-NKyIkM83i9Q-unsplash.jpg","claudio-schwarz-NKyIkM83i9Q-unsplash","jpg"],
+			[860,2064,172,171,29,10,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-wsDj2EWU2ug-unsplash.jpg","jan-budomo-wsDj2EWU2ug-unsplash","jpg"],
+			[860,2235,172,169,304,110,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/joshua-hoehne---YAKzZcrjw-unsplash.jpg","joshua-hoehne---YAKzZcrjw-unsplash","jpg"],
+			[860,2404,172,169,86,31,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/frankie-cordoba-09iM5vFo9BE-unsplash.jpg","frankie-cordoba-09iM5vFo9BE-unsplash","jpg"],
+			[860,2573,172,169,305,110,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/joshua-hoehne---YAKzZcrjw-unsplash.jpg","joshua-hoehne---YAKzZcrjw-unsplash","jpg"],
+			[860,2742,172,169,434,155,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/tide_trasher_x-Cge7LCL0hVc-unsplash.jpg","tide_trasher_x-Cge7LCL0hVc-unsplash","jpg"],
+			[860,344,172,172,410,147,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/tatiana-rodriguez-XyXI9zpxXKo-unsplash.jpg","tatiana-rodriguez-XyXI9zpxXKo-unsplash","jpg"],
+			[860,516,172,172,387,139,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/denin-lawley-ZZrNc-sP32Y-unsplash.jpg","denin-lawley-ZZrNc-sP32Y-unsplash","jpg"],
+			[860,688,172,172,133,47,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/baliente-agency-0ZGdbEextqA-unsplash.jpg","baliente-agency-0ZGdbEextqA-unsplash","jpg"],
+			[860,860,172,172,26,9,3,"file:///C:/Users/lisa.tang1/Dropbox/AJPH_img/dei_mosaic/jan-budomo-ObP2-rbk1BQ-unsplash.jpg","jan-budomo-ObP2-rbk1BQ-unsplash","jpg"],
+		];
+
+        // Get the tile at the specified position x,y in pixels
+        var getTileObject = function (x,y) {
+            var l = tileArrays.length;
+            for (n=0; n<l; ++n) {
+                tileInfo = tileArrays[n];
+                if (tileInfo[0] <= x && tileInfo[0]+tileInfo[2] >= x && tileInfo[1] <= y && tileInfo[1]+tileInfo[3] >= y) {
+                    return { 
+                        tileLeft:tileInfo[0],
+                        tileTop:tileInfo[1],
+                        tileWidth:tileInfo[2],
+                        tileHeight:tileInfo[3],
+                        tileRight:tileInfo[0]+tileInfo[1],
+                        tileBottom:tileInfo[2]+tileInfo[3],
+                        tileNr:tileInfo[4],
+                        imageNr:tileInfo[5],
+                        imageUsageCount:tileInfo[6],
+                        imageUrl:tileInfo[7],
+                        imageName:tileInfo[8],
+                        imageExtension:tileInfo[9],
+                    };
+                }
+            }
+            return null; // not found
+        }
+
+        var showPopUpWindow = function(popUpText, callback) {
+            callback.showPopUp({maxWidth:300, popUpText:popUpText}, callback.args);
+        }
+
+        // This function builds the PopUp window information for the specified Tile. 
+        // Returns an object with following members:
+        //  maxWidth: maximum width of the popup window.
+        //  popUpText: HTML text to show in the popup window.
+        var getPopUpFullText = function (x,y,callback) {
+            var tile = getTileObject(x,y);
+            popUpText = tile === null ? "No information available" :
+                        (tile.imageUrl == null? '' : '<a href="' + tile.imageUrl + '" target="TileImage"><img src="' + tile.imageUrl + '" width=300 /><br></a>')
+                        + 'Tile Nr.: ' + tile.tileNr + '<br>'
+                        + 'Tile Size: ' + tile.tileWidth + ' x ' + tile.tileHeight + '<br>'
+                        + 'Tile Position: ' + tile.tileLeft + ' x ' + tile.tileTop + '<br>'
+                        + 'Image Nr.: ' + tile.imageNr + '<br>'
+                        + 'Image Name: ' + tile.imageName + '<br>'
+                        + 'Image Extension: ' + tile.imageExtension + '<br>'
+                        + 'Image Usage Count: ' + tile.imageUsageCount + '<br>';
+            showPopUpWindow(popUpText,callback);
+        };
+
+        // PopUp showing only the image
+        var getPopUpImageOnly = function (x,y,callback) {
+            var tile = getTileObject(x,y);
+            popUpText = tile === null || tile.imageUrl === null ? "No information available" : '<a href="' + tile.imageUrl + '" target="TileImage"><img src="' + tile.imageUrl + '" width=300 /><br></a>';
+            showPopUpWindow(popUpText,callback);
+        };
+
+        // PopUp showing the image with name and usage count
+        var getPopUpImageWithName = function (x,y,callback) {
+            var tile = getTileObject(x,y);
+            popUpText = tile === null || tile.imageUrl === null ? "No information available" : '<a href="' + tile.imageUrl + '" target="TileImage"><img src="' + tile.imageUrl + '" width=300 /><br></a>' 
+                + '<center>' + tile.imageName + ' (used ' + tile.imageUsageCount + ' times)</center>';
+            showPopUpWindow(popUpText,callback);
+        };
+
+        // PopUp showing only ImageNr
+        var getPopUpTextOnly = function (x,y,callback) {
+            var tile = getTileObject(x,y);
+            popUpText = tile === null || tile.imageUrl === null ? "No information available" : '<center>image #' + tile.imageNr + ' used ' + tile.imageUsageCount + ' times</center>'; 
+            showPopUpWindow(popUpText,callback);
+        };
+
+        // Get the Help Text to show when clicking on the ? button
+        var getHelpText = function () {
+            return {
+                maxWidth: 500,
+                minWidth: 300,
+                popUpText:    '<table class="help-table"><thead><tr><th></th><th>Mouse</th><th>Touchscreen</th><th>Keyboard</th></tr></thead><tbody>' 
+                            + '<tr><td>Zoom In</td><td>Wheel or Doubleclick</td><td>Enlarge with two Fingers</td><td>+</td></tr><tr>'
+                            + '<tr><td>Zoom Out</td><td>Wheel or Shift + Doubleclick</td><td>Reduce with two Fingers</td><td>-</td></tr><tr>'
+                            + '<tr><td>Pan</td><td>Left Click + Move</td><td>Short Press + Move</td><td>Arrow Keys</td></tr><tr>'
+                            + '<tr><td>Show Info</td><td>Right Click</td><td>Long Press</td><td></td></tr><tr>'
+                            + '<tr><td>Hide Info</td><td>Left Click on map</td><td>Short Press on map</td><td>Esc</td></tr><tr>'
+                            + '<tr><td>Zoom area</td><td>Left Click + Shift + Move</td><td></td><td></td></tr><tr>'
+                            + '</tbody></table>',
+            }
+        }; 
+
+        // This function builds the search text.
+        // This function is invoked once when loading the mosaic.
+        // It returns an array with 3 elements: x,y,title.
+        // If two tiles have the same title then it will be displayed only once in the search list.
+        var getSearchText = function () {
+            var l = tileArrays.length;
+            var searchList = new Array(l);
+            for (n=0; n<l; ++n) {
+                tileInfo = tileArrays[n];
+                searchList[n] = [tileInfo[0]+tileInfo[2]/2, tileInfo[1]+tileInfo[3]/2, tileInfo[8]];
+            }
+            return searchList;
+        };
+
+        // Map Options
+        var mapOptions = {
+            getPopUpText: getPopUpFullText, // function that retrieves the HTML text to show for a tile. Can be null to avoid popup.
+            getHelpText: getHelpText, // function that retrieves the HTML text to show as PopUp for a help. (can be null to hide the ? button)
+            attribution: "Mosaic created by AndreaMosaic", // set my own attribution text, as html text. Can be null to have no additional attribution.
+            keepPopUpInView: true, // if true the map will autopan so that the popup window is awlays shown.
+            fullscreenControl: !navigator.vendor.match(/apple/i),
+            getSearchText: getSearchText,    // function that retrieves the text of each tile that will be searched. Null to avoid search.
+            searchMiddleOfText: true, // false: search elements only by initial text
+            searchCaseInsensitive: true, // false: search elements in case sensitive text
+            searchAutocomplete: true, // complete input with first suggested result and select this filled-in text.
+            searchAutoHideMarker: true, // remove circle and marker on search control collapsed
+            searchMarkerFound: null, // specify a L.Icon or null for the default
+            searchText:'Tile...', // text for the Search
+            searchTextError:'Tile not found',    //error message
+            searchTextCancel: 'Cancel',          //title in cancel button        
+            searchTextPlaceholder: 'Search Tile...',   //placeholder value         
+            searchContainer: '', // container id to insert Search Control
+            zoomControl: true, // false to not show a zoom control with +/- buttons
+            panInertia: null, // can be null, true or false. Inertia feels nice on touchscreen devices
+            panInertiaDeceleration: null, // can be null or a value in pixels/second.
+        };
+
+        // Show the Mosaic
+        ShowAndreaMosaic(
+            'AndreaMosaic', // Div ID
+            'mosaic/', // Base URL of the Mosaic Tiles
+            4960, // Width in Pixels
+            2911, // Height in Pixels
+            mapOptions
+            );
+    </script>
+</body>
+</html>
