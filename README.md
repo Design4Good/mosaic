@@ -2,17 +2,13 @@
 
 ## Living MOSAICC
 
+***To enlarge each image tile, right-click for a pop-up.***
 
-***To see details of each image patch, right-click for a pop-up.***
+- [Companions in Defiance](2025-05/20250519/index.html) emphasizes mutual support, chosen families, and emotional resilience, portraying community bonds through imagery of connection, compassion, and love.
+- [United in Pride](2025-05/20250520/index.html) symbolizes national visibility, intersectionality, and collective strength
 
-To support transparency and engagement, the digital version, [Version 2](2025-05/20250519/index.html) allows viewers to zoom into each tile, see the original image in its unmodified form, and in Version 3, trace back to its online source to learn more about its creator and context. 
-
-<details>
-  <summary>Previous versions</summary>
-
-[Version 1](2025-05/20250510/index.html) 
-
-</details>
+In a planned revision to come in June, the pop-up will provide a hyperlink to a related online discussion. 
+ 
 ## Resources
 
 - [Pride flags explained](https://www.volvogroup.com/en/news-and-media/news/2021/jun/lgbtq-pride-flags-and-what-they-stand-for.html)
