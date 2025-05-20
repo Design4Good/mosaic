@@ -3,24 +3,41 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"> 
-    <title>Mosaic created by AndreaMosaic</title>
+    <title>MOSAICC project - Mosaic 2: Companions in Defiance</title>
     <link rel="stylesheet" href="app/leaflet.css" />
     <link rel="stylesheet" href="app/Control.FullScreen.css" />
     <link rel="stylesheet" href="app/easy-button.css" />
     <link rel="stylesheet" href="app/help-table.css" />
     <link rel="stylesheet" href="app/leaflet-search.css" />
     <style type="text/css">
-        html, body, #AndreaMosaic {
+        h1, p {
+            text-align: center;            
+        }
+
+        html, body, #AndreaMosaic, .spacer {
             width: 100%;
             height: 100%;
             padding: 0;
             margin: 0;
-            background: black;
+            font-family:"Lucida Handwriting", "Helvetica Neue", cursive;
+            background: #CCC;
+        }
+         
+        p {
+            color: #b11; 
+            font-weight: bold;
+            font-size: 1.5em;
+            margin: 1em;
         }
     </style>
 </head>
 <body>
-    <div id="AndreaMosaic"></div>
+    
+    <div id="AndreaMosaic">
+        <h1>MOSAICC project - Mosaic 2: Companions in Defiance</h1>
+        <p>Right-click on an image tile for an enlarged view as well as additional information</p>
+    </div>
+    <div class="spacer"></div>
     <script src="app/leaflet.js"></script>
     <script src="app/leafletzoom.js"></script>  
     <script src="app/Control.FullScreen.js"></script>  
@@ -556,7 +573,7 @@
         }
 
         var showPopUpWindow = function(popUpText, callback) {
-            callback.showPopUp({maxWidth:300, popUpText:popUpText}, callback.args);
+            callback.showPopUp({maxWidth:500, popUpText:popUpText}, callback.args);
         }
 
         // This function builds the PopUp window information for the specified Tile. 
