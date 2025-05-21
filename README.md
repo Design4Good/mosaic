@@ -4,10 +4,10 @@
 
 ***To enlarge each image tile, right-click for a pop-up.***
 
+- [United in Pride](2025-05/20250521/index.html) symbolizes national visibility, intersectionality, and collective strength
 - [Companions in Defiance](2025-05/20250519/index.html) emphasizes mutual support, chosen families, and emotional resilience, portraying community bonds through imagery of connection, compassion, and love.
-- [United in Pride](2025-05/20250520/index.html) symbolizes national visibility, intersectionality, and collective strength
 
-In a planned revision to come in June, the pop-up will provide a hyperlink to a related online discussion. 
+Please kindly note the mosaics are work in-progress; more features are coming soon. 
  
 ## Resources
 
