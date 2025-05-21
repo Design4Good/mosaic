@@ -10,16 +10,63 @@
     <link rel="stylesheet" href="app/help-table.css" />
     <link rel="stylesheet" href="app/leaflet-search.css" />
     <style type="text/css">
+        
+        .text{
+			display: grid;	
+            place-content: center;                        
+        }
+
+		h1 {
+			font-family: "Helvetica Neue", cursive;
+		}
+
         html, body, #AndreaMosaic {
             width: 100%;
             height: 100%;
             padding: 0;
             margin: 0;
-            background: black;
+        	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            
+            background: #CCC;
+        }
+        h3 {
+            color: red; 
+        }         
+        p {
+		    color: black; 
+            font-weight: bold;
+            font-size: 1em;            
         }
     </style>
 </head>
 <body>
+  
+  <div class='text', style="max-width: auto;">
+  <h1>MOSAICC project - Mosaic 1: United in Pride</h1>    
+  <h2>Usage Guide</h2>
+  <ol>
+    <li>
+      <strong>Viewing Image Tiles</strong><br>
+      To explore an image tile in more detail, right-click on it. This action will open a pop-up featuring an enlarged version of the image along with additional context.
+    </li>
+    <li>
+      <strong>Accessing Instagram Content</strong><br>
+      Some tiles incorporate content from Instagram. To view these, ensure you're logged into your Instagram account. 
+      If you don't have one, you can create a free account at 
+      <a href="https://www.instagram.com" target="_blank">instagram.com</a>.
+    </li>
+    <li>
+      <strong>Refreshing the View</strong><br>
+      If the mosaic appears misaligned or disoriented, refreshing the page should restore the intended layout.
+    </li>
+  </ol>
+  <p>
+    For more information about the project, visit the 
+    <a href="https://github.com/design4good/mosaicc" target="_blank">Home</a>.
+  </p>
+  <em>Please note that this is a work in-progress only and so dummy links are used.</em>
+</div>
+
     <div id="AndreaMosaic"></div>
     <script src="app/leaflet.js"></script>
     <script src="app/leafletzoom.js"></script>  
