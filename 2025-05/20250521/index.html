@@ -1,0 +1,412 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"> 
+    <title>Mosaic created by AndreaMosaic</title>
+    <link rel="stylesheet" href="app/leaflet.css" />
+    <link rel="stylesheet" href="app/Control.FullScreen.css" />
+    <link rel="stylesheet" href="app/easy-button.css" />
+    <link rel="stylesheet" href="app/help-table.css" />
+    <link rel="stylesheet" href="app/leaflet-search.css" />
+    <style type="text/css">
+        html, body, #AndreaMosaic {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            background: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="AndreaMosaic"></div>
+    <script src="app/leaflet.js"></script>
+    <script src="app/leafletzoom.js"></script>  
+    <script src="app/Control.FullScreen.js"></script>  
+    <script src="app/easy-button.js"></script>  
+    <script src="app/leaflet-search.js"></script>
+    <script type="application/javascript">
+        // TileArrays is an array of the tiles. It is needed for getPopUpText, getHelpText, getSearchText. Can be null.
+        // Each tileArray item has mandatory the first 4 elements defined as x,y,width,height in pixels of the tile position.
+        // Other elements in the array are optional and custom defined. See getTileObject.
+        // For mosaics with many tiles this array should have as few elements as possible or even not defined at all.
+        // With a very large amount of tiles it is suggested to store this list on the server and retrieve the tile 
+        // on demand in getTileObject.
+        var tileArrays = [
+			// tileX, tileY, tileWidth, tileHeight, tileNr, imageNr, imageUsageCount, imageUrl, imageName, imageExtension
+		[0, 0, 248, 259, 141, 141, 1, 'tiles/heather-mount-xSOLAXxS88g-unsplash-141.jpg', '<p><a href="">Heather Mount </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[0, 1036, 248, 259, 90, 90, 1, 'tiles/mon-sag-6PiAaKDqmOM-unsplash-90.jpg', '<p><a href="">Mon Sag</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[0, 1295, 248, 259, 206, 206, 1, 'tiles/gayatri-malhotra-GQ3ORLOD8OY-unsplash-206.jpg', '<p><a href="">Gayatri Malhotra </a> | <a href="">Unsplash</a></p><p>Boys Will Be Held Accountable | 2021 | Washington D.C., DC, USA', 'jpg'] ,
+[0, 1554, 248, 259, 111, 111, 1, 'tiles/patrick-perkins-zsjGkx9Fqlk-unsplash-111.jpg', '<p><a href="">Patrick Perkins </a> | <a href="">Unsplash</a></p><p>2022 | San Francisco', 'jpg'] ,
+[0, 1813, 248, 259, 146, 146, 1, 'tiles/honbike-s0EilGkPZc4-unsplash-146.jpg', '<p><a href="">Honbike </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[0, 2072, 248, 259, 81, 81, 1, 'tiles/bertrand-colombo-8Eifk_1N5Wk-unsplash-81.jpg', '<p><a href="">Bertrand Colombo</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[0, 2331, 248, 259, 19, 19, 1, 'tiles/alexander-grey-u3pRViUI2oU-unsplash-19.jpg', '<p><a href="">Alexander Grey</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[0, 259, 248, 259, 61, 61, 1, 'tiles/maurice-williams-tPX992SVljo-unsplash-61.jpg', '<p><a href="">Maurice Williams</a> | <a href="">Unsplash</a></p><p>2019 | Northridge , USA', 'jpg'] ,
+[0, 2590, 248, 259, 110, 110, 1, 'tiles/patrick-perkins-z9gSQKODBiQ-unsplash-110.jpg', '<p><a href="">Patrick Perkins </a> | <a href="">Unsplash</a></p><p>2022 | San Francisco', 'jpg'] ,
+[0, 2849, 248, 251, 116, 116, 1, 'tiles/raj-tuladhar-VZ2J246wEqE-unsplash-116.jpg', '<p><a href="">Raj Tuladhar </a> | <a href="">Unsplash</a></p><p>2024', 'jpg'] ,
+[0, 518, 248, 259, 199, 199, 1, 'tiles/gayatri-malhotra-1XAwulZa8kU-unsplash-199.jpg', '<p><a href="">Gayatri Malhotra </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[0, 777, 248, 259, 95, 95, 1, 'tiles/mon-sag-7aNNFP0GWjs-unsplash-95.jpg', '<p><a href="">Mon Sag</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1240, 0, 248, 259, 107, 107, 1, 'tiles/patrick-perkins-O5ifjQRrbFU-unsplash-107.jpg', '<p><a href="">Patrick Perkins </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1240, 1036, 248, 259, 210, 210, 1, 'tiles/mana5280-gl_ZGbUgG7M-unsplash-210.jpg', '<p><a href="">Mana5280 </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1240, 1295, 248, 259, 239, 239, 1, 'tiles/ehimetalor-akhere-unuabona-N5_-9nNTWtM-unsplash-239.jpg', '<p><a href="">Ehimetalor Akhere Unuabona </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1240, 1554, 248, 259, 195, 195, 1, 'tiles/in-lieu-in-view-photography-MUCQZE74NME-unsplash-195.jpg', '<p><a href="">In Lieu In View Photography </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1240, 1813, 248, 259, 63, 63, 1, 'tiles/meg-5aDwQh-JfZo-unsplash-63.jpg', '<p><a href="">Meg</a> | <a href="">Unsplash</a></p><p>2021 | New York', 'jpg'] ,
+[1240, 2072, 248, 259, 171, 171, 1, 'tiles/frankie-cordoba-E3zubhnUvnA-unsplash-171.jpg', '<p><a href="">Frankie Cordoba </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1240, 2331, 248, 259, 201, 201, 1, 'tiles/gayatri-malhotra-C0hr6kIR_kE-unsplash-201.jpg', '<p><a href="">Gayatri Malhotra </a> | <a href="">Unsplash</a></p><p>We Don\'t Accept Military Coup + LGBTQ+ Flag | 2021 | White House, Pennsylvania Avenue Northwest, Washington, DC, USA', 'jpg'] ,
+[1240, 259, 248, 259, 104, 104, 1, 'tiles/patrick-perkins-eNJ_N-uiyPw-unsplash-104.jpg', '<p><a href="">Patrick Perkins </a> | <a href="">Unsplash</a></p><p>2022 | San Francisco', 'jpg'] ,
+[1240, 2590, 248, 259, 62, 62, 1, 'tiles/mercedes-mehling-AqmIcSrg63I-unsplash-62.jpg', '<p><a href="">Mercedes Mehling</a> | <a href="">Unsplash</a></p><p>Black Lives Matter | 2020 | Portland, Maine, USA', 'jpg'] ,
+[1240, 2849, 248, 251, 2, 2, 1, 'tiles/ryunosuke-kikuno-XjgZMgxaztY-unsplash-2.jpg', '<p><a href="">Ryunosuke Kikun</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1240, 518, 248, 259, 216, 216, 1, 'tiles/lewis-guapo-I6PqLR587v8-unsplash-216.jpg', '<p><a href="">Lewis Guapo </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1240, 777, 248, 259, 27, 27, 1, 'tiles/barbara-burgess-wl8z01xnAHo-unsplash-27.jpg', '<p><a href="">Barbara Burgess</a> | <a href="">Unsplash</a></p><p>2022', 'jpg'] ,
+[1488, 0, 248, 259, 99, 99, 1, 'tiles/obi-_jo0jfTVFtM-unsplash-99.jpg', '<p><a href="">Obi</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1488, 1036, 248, 259, 150, 150, 1, 'tiles/2019-brian-kyed-P7EFJs577Xg-unsplash-150.jpg', '<p><a href="">2019 Brian Kyed </a> | <a href="">Unsplash</a></p><p>I was walking around at Pride 2019 in New York to portrait interesting people and scenes. I meet these two women who were so full of joy and happiness and had to try to see if I could capture it somehow. I think it turned out really well and that you feel so much joy looking at how both smile in that kiss. | 2019', 'jpg'] ,
+[1488, 1295, 248, 259, 45, 45, 1, 'tiles/documerica-5z8fGuV36UY-unsplash-45.jpg', '<p><a href="">Documerica</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1488, 1554, 248, 259, 157, 157, 1, 'tiles/aiden-frazier-QlSMmPql72A-unsplash-157.jpg', '<p><a href="">Aiden Frazier </a> | <a href="">Unsplash</a></p><p>Man typing for remote work, wearing a muted rainbow tank top, while at a coffee shop, sitting on leather sofa  | 2021 | Sacramento, CA', 'jpg'] ,
+[1488, 1813, 248, 259, 169, 169, 1, 'tiles/frankie-cordoba-AzeMTUCQ2hA-unsplash-169.jpg', '<p><a href="">Frankie Cordoba </a> | <a href="">Unsplash</a></p><p>2024 | Miami, FL', 'jpg'] ,
+[1488, 2072, 248, 259, 180, 180, 1, 'tiles/jan-budomo-QLIyTJvP00M-unsplash-180.jpg', '<p><a href="">Jan Budomo </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1488, 2331, 248, 259, 227, 227, 1, 'tiles/jessica-podraza-ZvNaAGYVlEc-unsplash-227.jpg', '<p><a href="">Jessica Podraza </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1488, 259, 248, 259, 165, 165, 1, 'tiles/fab-zamp-unZLUnFs8BQ-unsplash-165.jpg', '<p><a href="">Fab Zamp </a> | <a href="">Unsplash</a></p><p>2023 | San Francisco', 'jpg'] ,
+[1488, 2590, 248, 259, 69, 69, 1, 'tiles/mario-verduzco-TNO_BnhDmvo-unsplash-69.jpg', '<p><a href="">Mario Verduzco</a> | <a href="">Unsplash</a></p><p>2022 | Seattle, WA, USA', 'jpg'] ,
+[1488, 2849, 248, 251, 189, 189, 1, 'tiles/ipse-dixit-2aW8OPwyrL0-unsplash-189.jpg', '<p><a href="">Ipse Dixit </a> | <a href="">Unsplash</a></p><p>DOMA and Prop 8 protestors outside Supreme Court, March 26, 2013.| 2019 | Supreme Court, Washington, DC, United States', 'jpg'] ,
+[1488, 518, 248, 259, 151, 151, 1, 'tiles/abi-allen-q7X2fN14OUk-unsplash-151.jpg', '<p><a href="">Abi Allen </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1488, 777, 248, 259, 74, 74, 1, 'tiles/brandy-wine-fdCRCVegq3w-unsplash-74.jpg', '<p><a href="">Brandy Wine</a> | <a href="">Unsplash</a></p><p>Male gay couple standing in forest holding hands for brandywine gay wedding photography | 2023 | Kings Mountain, NC, USA', 'jpg'] ,
+[1736, 0, 248, 259, 94, 94, 1, 'tiles/patrick-perkins-fLOe7jT9fXs-unsplash-94.jpg', '<p><a href="">Patrick Perkins</a> | <a href="">Unsplash</a></p><p>2022 | San Francisco', 'jpg'] ,
+[1736, 1036, 248, 259, 109, 109, 1, 'tiles/nathan-ives-cmMdxXC5uSs-unsplash-109.jpg', '<p><a href="">Nathan Ives </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1736, 1295, 248, 259, 134, 134, 1, 'tiles/heather-mount-DncHjuAkyWY-unsplash-134.jpg', '<p><a href="">Heather Mount </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1736, 1554, 248, 259, 222, 222, 1, 'tiles/jan-budomo-_5GA5UtHjGQ-unsplash-222.jpg', '<p><a href="">Jan Budomo </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1736, 1813, 248, 259, 230, 230, 1, 'tiles/ehimetalor-akhere-unuabona-hvby1QMmlyw-unsplash-230.jpg', '<p><a href="">Ehimetalor Akhere Unuabona </a> | <a href="">Unsplash</a></p><p>EAU | 2022', 'jpg'] ,
+[1736, 2072, 248, 259, 11, 11, 1, 'tiles/brittani-burns-98uYQ-KupiE-unsplash-11.jpg', '<p><a href="">Brittani Burns</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1736, 2331, 248, 259, 77, 77, 1, 'tiles/brian-wangenheim-FZe47Ks3z2E-unsplash-77.jpg', '<p><a href="">Brian Wangenheim</a> | <a href="">Unsplash</a></p><p>2021 | Hidden Vanity Beauty Lounge, West Ridgecrest Boulevard, Ridgecrest, CA, USA', 'jpg'] ,
+[1736, 259, 248, 259, 205, 205, 1, 'tiles/gayatri-malhotra-b-Nve_xRGpw-unsplash-205.jpg', '<p><a href="">Gayatri Malhotra </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1736, 2590, 248, 259, 129, 129, 1, 'tiles/heather-mount-uISF00TRVbU-unsplash-129.jpg', '<p><a href="">Heather Mount </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1736, 2849, 248, 251, 117, 117, 1, 'tiles/polina-portnaya-g9DWWCon4Rs-unsplash-117.jpg', '<p><a href="">Polina Portnaya </a> | <a href="">Unsplash</a></p><p>05.14.20 Black Lives Matter Peaceful Protest in Hollywood, California (Instagram: @polina_portnaya) | 2020 | Los Angeles, CA, USA', 'jpg'] ,
+[1736, 518, 248, 259, 156, 156, 1, 'tiles/aiden-craver-zpw1s5spZOY-unsplash-156.jpg', '<p><a href="">Aiden Craver </a> | <a href="">Unsplash</a></p><p>2022 | New Orleans, LA', 'jpg'] ,
+[1736, 777, 248, 259, 144, 144, 1, 'tiles/heather-mount-GmG-_QQrjHA-unsplash-144.jpg', '<p><a href="">Heather Mount </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1984, 0, 248, 259, 112, 112, 1, 'tiles/nikolas-gannon-43b5JNIKsDk-unsplash-112.jpg', '<p><a href="">Nikolas Gannon </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1984, 1036, 248, 259, 87, 87, 1, 'tiles/nice-m-nshuti-u1c0Q-hhEhc-unsplash-87.jpg', '<p><a href="">Nice M Nshuti</a> | <a href="">Unsplash</a></p><p>2024 | French Quarter, New Orleans, LA, USA', 'jpg'] ,
+[1984, 1295, 248, 259, 121, 121, 1, 'tiles/pexels-polina-tankilevitch-8609269-121.jpg', '<p><a href="">Pexels Polina </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1984, 1554, 248, 259, 194, 194, 1, 'tiles/james-lee-wtKKPgkbenQ-unsplash-194.jpg', '<p><a href="">James Lee </a> | <a href="">Unsplash</a></p><p>2018 | Southern California', 'jpg'] ,
+[1984, 1813, 248, 259, 174, 174, 1, 'tiles/frankie-cordoba-pr-5h43VF6w-unsplash-174.jpg', '<p><a href="">Frankie Cordoba </a> | <a href="">Unsplash</a></p><p>2024 | Miami, FL', 'jpg'] ,
+[1984, 2072, 248, 259, 28, 28, 1, 'tiles/barbara-burgess-l_o32zYzwkk-unsplash-28.jpg', '<p><a href="">Barbara Burgess</a> | <a href="">Unsplash</a></p><p>2022', 'jpg'] ,
+[1984, 2331, 248, 259, 73, 73, 1, 'tiles/brian-kyed-7tFNWH-r0Fo-unsplash-73.jpg', '<p><a href="">Brian Kyed</a> | <a href="">Unsplash</a></p><p>I was walking around at Pride 2019 in New York to portrait interesting people and scenes. I met this guy wearing bunny ears and crazy boots posing in the street. I had a small photoshoot session with him.', 'jpg'] ,
+[1984, 259, 248, 259, 162, 162, 1, 'tiles/aiden-craver-joz_6QRCxds-unsplash-162.jpg', '<p><a href="">Aiden Craver </a> | <a href="">Unsplash</a></p><p>a group of people holding signs and wearing masks', 'jpg'] ,
+[1984, 2590, 248, 259, 193, 193, 1, 'tiles/iris-oblee-6rEU9L8UgJo-unsplash-193.jpg', '<p><a href="">Iris Oblee </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[1984, 2849, 248, 251, 51, 51, 1, 'tiles/ken-whytock-NVI6gFrpG4Q-unsplash-51.jpg', '<p><a href="">Ken Whytock</a> | <a href="">Unsplash</a></p><p>A colourful rainbow against a blue sky.', 'jpg'] ,
+[1984, 518, 248, 259, 163, 163, 1, 'tiles/aiden-craver-jQJiN9ukkuE-unsplash-163.jpg', '<p><a href="">Aiden Craver </a> | <a href="">Unsplash</a></p><p>2022 | New Orleans, LA', 'jpg'] ,
+[1984, 777, 248, 259, 177, 177, 1, 'tiles/jan-budomo-f4wPAh-sdTo-unsplash-177.jpg', '<p><a href="">Jan Budomo </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2232, 0, 248, 259, 101, 101, 1, 'tiles/palash-jain-rVz8DcviU3c-unsplash-101.jpg', '<p><a href="">Palash Jain </a> | <a href="">Unsplash</a></p><p>Sugar | 2019 | San Francisco', 'jpg'] ,
+[2232, 1036, 248, 259, 26, 26, 1, 'tiles/alyssa-baches-FJgC5ho-B9Q-unsplash-26.jpg', '<p><a href="">Alyssa Baches</a> | <a href="">Unsplash</a></p><p>2023 | Palm Springs', 'jpg'] ,
+[2232, 1295, 248, 259, 173, 173, 1, 'tiles/faiza-haji-S--qVgb6e7Y-unsplash-173.jpg', '<p><a href="">Faiza Haji </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2232, 1554, 248, 259, 190, 190, 1, 'tiles/in-lieu-in-view-photography-y6_ngywxH28-unsplash-190.jpg', '<p><a href="">In Lieu In View Photography </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2232, 1813, 248, 259, 183, 183, 1, 'tiles/jan-budomo-Duym8cAa9WU-unsplash-183.jpg', '<p><a href="">Jan Budomo </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2232, 2072, 248, 259, 32, 32, 1, 'tiles/barbara-burgess-OzW66xAniTE-unsplash-32.jpg', '<p><a href="">Barbara Burgess</a> | <a href="">Unsplash</a></p><p>April 2025 | Tennessee', 'jpg'] ,
+[2232, 2331, 248, 259, 21, 21, 1, 'tiles/alexander-grey-VMZQHJg2aW8-unsplash-21.jpg', '<p><a href="">Alexander Grey</a> | <a href="">Unsplash</a></p><p>LGBTQIA for Lesbian, Gay, Bisexual, Transgender, Queer, Intersex, Asexual | 2020 | New Hampshire, USA', 'jpg'] ,
+[2232, 259, 248, 259, 124, 124, 1, 'tiles/reagan-nicole-oaVi2UN75aI-unsplash-124.jpg', '<p><a href="">Reagan Nicole </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2232, 2590, 248, 259, 30, 30, 1, 'tiles/barbara-burgess-qVkhr_EGjGo-unsplash-30.jpg', '<p><a href="">Barbara Burgess</a> | <a href="">Unsplash</a></p><p>2025', 'jpg'] ,
+[2232, 2849, 248, 251, 42, 42, 1, 'tiles/danny-burke-H7WB3hXDyNo-unsplash-42.jpg', '<p><a href="">Danny Burke</a> | <a href="">Unsplash</a></p><p>Storm Troopers marching in the Salt Lake City pride parade | 2024 ', 'jpg'] ,
+[2232, 518, 248, 259, 153, 153, 1, 'tiles/alexander-grey-8-9EC69SiEY-unsplash-153.jpg', '<p><a href="">Alexander Grey </a> | <a href="">Unsplash</a></p><p>I guess we have really been out of the loop while on quarantine because we just found out today that the Boston Pride Parade and Festival 2020 was cancelled two weeks ago! This year was the 50th anniversary of Boston Pride and because of the Covid 19 pandemic, the celebration has been postponed until June, 2021. If nothing else this gives us a whole extra year to plan some awesome costumes to wear to the parade. This was taken in natural light from the bedroom window. We added water to chalk dust to make the paint for the rainbow. Well, as we say here in New England, we are still #WickedProud | 2020 | Hampton Beach, Hampton, NH, USA', 'jpg'] ,
+[2232, 777, 248, 259, 203, 203, 1, 'tiles/frankie-cordoba-y2gwxf4JU5g-unsplash-203.jpg', '<p><a href="">Frankie Cordoba </a> | <a href="">Unsplash</a></p><p>2024 | Miami, FL', 'jpg'] ,
+[248, 0, 248, 259, 85, 85, 1, 'tiles/mike-von-WQtFSc-oIK4-unsplash-85.jpg', '<p><a href="">Mike Von</a> | <a href="">Unsplash</a></p><p>Black Lives Matter Protest', 'jpg'] ,
+[248, 1036, 248, 259, 135, 135, 1, 'tiles/heather-mount-mXi3H_GB6IU-unsplash-135.jpg', '<p><a href="">Heather Mount </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[248, 1295, 248, 259, 46, 46, 1, 'tiles/ehimetalor-akhere-unuabona--o0fuIW1WrA-unsplash-46.jpg', '<p><a href="">Ehimetalor Akhere Unuabona</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[248, 1554, 248, 259, 200, 200, 1, 'tiles/gayatri-malhotra-aAs9hiVVxLw-unsplash-200.jpg', '<p><a href="">Gayatri Malhotra </a> | <a href="">Unsplash</a></p><p>a group of people holding a sign that says march like your future begins on it', 'jpg'] ,
+[248, 1813, 248, 259, 181, 181, 1, 'tiles/jan-budomo-wsDj2EWU2ug-unsplash-181.jpg', '<p><a href="">Jan Budomo </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[248, 2072, 248, 259, 97, 97, 1, 'tiles/mike-von-IpXoieawK14-unsplash-97.jpg', '<p><a href="">Mike Von</a> | <a href="">Unsplash</a></p><p>George Floyd Protest | 2020 | Los Angeles, CA, USA', 'jpg'] ,
+[248, 2331, 248, 259, 148, 148, 1, 'tiles/heather-mount-tBU1oeYuE78-unsplash-148.jpg', '<p><a href="">Heather Mount </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[248, 259, 248, 259, 132, 132, 1, 'tiles/heather-mount-u8JduLTWE4g-unsplash-132.jpg', '<p><a href="">Heather Mount </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[248, 2590, 248, 259, 76, 76, 1, 'tiles/brian-kyed-kZfyTiP5Ap0-unsplash-76.jpg', '<p><a href="">Brian Kyed</a> | <a href="">Unsplash</a></p><p>I was walking around at Pride 2019 in New York to portrait interesting people and scenes. All of a sudden I was in the front of this Gay Officers parade which was such a joy to watch. I went for the middle to capture both the banner and all the happy and proud officers standing up for themselves. | 2019 | New York, USA', 'jpg'] ,
+[248, 2849, 248, 251, 123, 123, 1, 'tiles/reagan-freeman-jRGI2Tu-YlA-unsplash-123.jpg', '<p><a href="">Reagan Freeman </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[248, 518, 248, 259, 17, 17, 1, 'tiles/barbara-burgess-FJ4AN2J1MVg-unsplash-17.jpg', '<p><a href="">Barbara Burgess</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[248, 777, 248, 259, 145, 145, 1, 'tiles/heather-mount-M4-xNOGC2YE-unsplash-145.jpg', '<p><a href="">Heather Mount </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2480, 0, 248, 259, 15, 15, 1, 'tiles/christian-lue-848Bkii7b6w-unsplash-15.jpg', '<p><a href="">Christian Lue</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2480, 1036, 248, 259, 114, 114, 1, 'tiles/pexels-charly-louise-531358788-19503767-114.jpg', '<p><a href="">Pexels Charly Louis</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2480, 1295, 248, 259, 59, 59, 1, 'tiles/joshua-hoehne---YAKzZcrjw-unsplash-59.jpg', '<p><a href="">Joshua Hoehne</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2480, 1554, 248, 259, 172, 172, 1, 'tiles/erik-torres-6dwKR8bFj60-unsplash-172.jpg', '<p><a href="">Erik Torres </a> | <a href="">Unsplash</a></p><p>2022 | Boston, MA', 'jpg'] ,
+[2480, 1813, 248, 259, 122, 122, 1, 'tiles/raj-tuladhar-w9mWDIHOESE-unsplash-122.jpg', '<p><a href="">Raj Tuladhar </a> | <a href="">Unsplash</a></p><p>2024', 'jpg'] ,
+[2480, 2072, 248, 259, 229, 229, 1, 'tiles/jon-tyson-_9sq1rxSTvw-unsplash-229.jpg', '<p><a href="">Jon Tyson </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2480, 2331, 248, 259, 113, 113, 1, 'tiles/peter-steiner-1973-YH4RRw9Izzw-unsplash-113.jpg', '<p><a href="">Peter Steiner 1973 </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2480, 259, 248, 259, 91, 91, 1, 'tiles/patrick-perkins-5qtFzszcIcI-unsplash-91.jpg', '<p><a href="">Patrick Perkins</a> | <a href="">Unsplash</a></p><p>2022 | San Francisco', 'jpg'] ,
+[2480, 2590, 248, 259, 10, 10, 1, 'tiles/chris-j-davis-C8qBA8z74eI-unsplash-10.jpg', '<p><a href="">Chris J Davis</a> | <a href="">Unsplash</a></p><p>2020 | Buffalo, NY', 'jpg'] ,
+[2480, 2849, 248, 251, 215, 215, 1, 'tiles/mana5280-XpzVdUN7kR4-unsplash-215.jpg', '<p><a href="">Mana5280 </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2480, 518, 248, 259, 226, 226, 1, 'tiles/jens-riesenberg-A-DLC-MC_4I-unsplash-226.jpg', '<p><a href="">Jens Riesenberg </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2480, 777, 248, 259, 136, 136, 1, 'tiles/heather-mount-N5cdEEhv8xs-unsplash-136.jpg', '<p><a href="">Heather Mount </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2728, 0, 248, 259, 142, 142, 1, 'tiles/hanyang-zhang-_YTCejYsXt8-unsplash-142.jpg', '<p><a href="">Hanyang Zhang </a> | <a href="">Unsplash</a></p><p>A group of men wearing colorful clothing | 2022 | Manhattan, New York, NY, USA', 'jpg'] ,
+[2728, 1036, 248, 259, 24, 24, 1, 'tiles/alexander-grey-wYUOwC8JsDQ-unsplash-24.jpg', '<p><a href="">Alexander Grey</a> | <a href="">Unsplash</a></p><p>A little bit of rainbow sass for LGBT Pride. Missing our friends and really hoping that LGBTQ Pride happens this year. We are staying creative while on lockdown quarantine by using up the last of the colorful acrylic paint for this photoshoot. It was raining and cold, so we put an old blanket down on the bed in front of the bedroom window to get this series of images. | 2020 | Hampton Beach, Hampton, NH, USA ', 'jpg'] ,
+[2728, 1295, 248, 259, 133, 133, 1, 'tiles/heather-mount-VcDVPB-fkOI-unsplash-133.jpg', '<p><a href="">Heather Mount </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2728, 1554, 248, 259, 48, 48, 1, 'tiles/diego-sanchez-PLf4CctiBSw-unsplash-48.jpg', '<p><a href="">Diego Sanchez</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2728, 1813, 248, 259, 158, 158, 1, 'tiles/aiden-craver-nmfncXar5r4-unsplash-158.jpg', '<p><a href="">Aiden Craver </a> | <a href="">Unsplash</a></p><p>2022 | New Orleans, LA', 'jpg'] ,
+[2728, 2072, 248, 259, 70, 70, 1, 'tiles/meg-WbQaY5fD5LQ-unsplash-70.jpg', '<p><a href="">Meg</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2728, 2331, 248, 259, 16, 16, 1, 'tiles/baliente-agency-Lgwj4pglfhE-unsplash-16.jpg', '<p><a href="">Baliente Agency</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2728, 259, 248, 259, 149, 149, 1, 'tiles/aiden-craver-734d77muxdU-unsplash-149.jpg', '<p><a href="">Aiden Craver </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2728, 2590, 248, 259, 106, 106, 1, 'tiles/patrick-perkins-MQjvbu6qLHU-unsplash-106.jpg', '<p><a href="">Patrick Perkins </a> | <a href="">Unsplash</a></p><p>a group of people holding signs', 'jpg'] ,
+[2728, 2849, 248, 251, 125, 125, 1, 'tiles/refhad--WhnzDGvQJw-unsplash-125.jpg', '<p><a href="">Refhad </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2728, 518, 248, 259, 160, 160, 1, 'tiles/aiden-craver-UmguNPBaEJs-unsplash-160.jpg', '<p><a href="">Aiden Craver </a> | <a href="">Unsplash</a></p><p>2022', 'jpg'] ,
+[2728, 777, 248, 259, 204, 204, 1, 'tiles/gage-walker-NMksMDahhg4-unsplash-204.jpg', '<p><a href="">Gage Walker </a> | <a href="">Unsplash</a></p><p>He looked very happy from the front. I hated it | 2018 | Knoxville, United States', 'jpg'] ,
+[2976, 0, 248, 259, 60, 60, 1, 'tiles/meg-VX-53_U3He8-unsplash-60.jpg', '<p><a href="">Meg</a> | <a href="">Unsplash</a></p><p>Taken at Chicago Pride | 2022 | Chicago, IL, USA', 'jpg'] ,
+[2976, 1036, 248, 259, 179, 179, 1, 'tiles/jan-budomo-HSQi8fkHk80-unsplash-179.jpg', '<p><a href="">Jan Budomo </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2976, 1295, 248, 259, 147, 147, 1, 'tiles/heather-mount-2zoEgVUqmS0-unsplash-147.jpg', '<p><a href="">Heather Mount </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2976, 1554, 248, 259, 176, 176, 1, 'tiles/ilia-bronskiy-zis_n-rJvwQ-unsplash-176.jpg', '<p><a href="">Ilia Bronskiy </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2976, 1813, 248, 259, 175, 175, 1, 'tiles/jan-budomo-ObP2-rbk1BQ-unsplash-175.jpg', '<p><a href="">Jan Budomo </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2976, 2072, 248, 259, 207, 207, 1, 'tiles/gayatri-malhotra-oZN9qWnayhs-unsplash-207.jpg', '<p><a href="">Gayatri Malhotra </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2976, 2331, 248, 259, 9, 9, 1, 'tiles/charliewarl-w4EY2LtKElc-unsplash-9.jpg', '<p><a href="">Charliewar</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2976, 259, 248, 259, 128, 128, 1, 'tiles/heather-mount-ooCsfLmCeeE-unsplash-128.jpg', '<p><a href="">Heather Mount </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2976, 2590, 248, 259, 49, 49, 1, 'tiles/julian-schneiderath-G_BaxV660Sk-unsplash-49.jpg', '<p><a href="">Julian Schneiderath</a> | <a href="">Unsplash</a></p><p>Two men with rainbow socks taking part in a CSD. | 2024', 'jpg'] ,
+[2976, 2849, 248, 251, 126, 126, 1, 'tiles/pexels-onetrillionpixels-31513071-126.jpg', '<p><a href="">Pexels Onetri</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2976, 518, 248, 259, 58, 58, 1, 'tiles/julia-mouketo-79TknMXA-M0-unsplash-58.jpg', '<p><a href="">Julia Mouketo</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[2976, 777, 248, 259, 238, 238, 1, 'tiles/ehimetalor-akhere-unuabona-M6Bpwmk7YTg-unsplash-238.jpg', '<p><a href="">Ehimetalor Akhere Unuabona </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3224, 0, 248, 259, 92, 92, 1, 'tiles/nk-ni-TnQFnvAfgWw-unsplash-92.jpg', '<p><a href="">Nk Ni</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3224, 1036, 248, 259, 235, 235, 1, 'tiles/ehimetalor-akhere-unuabona-I5LIUM9O6i8-unsplash-235.jpg', '<p><a href="">Ehimetalor Akhere Unuabona </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3224, 1295, 248, 259, 170, 170, 1, 'tiles/ernest-malimon-i9v2fSV8t6c-unsplash-170.jpg', '<p><a href="">Ernest Malimon </a> | <a href="">Unsplash</a></p><p>2023', 'jpg'] ,
+[3224, 1554, 248, 259, 164, 164, 1, 'tiles/frankie-cordoba-09iM5vFo9BE-unsplash-164.jpg', '<p><a href="">Frankie Cordoba </a> | <a href="">Unsplash</a></p><p>2022 | Miami, FL', 'jpg'] ,
+[3224, 1813, 248, 259, 40, 40, 1, 'tiles/cody-pulliam-GGKVGSkKIzM-unsplash-40.jpg', '<p><a href="">Cody Pulliam</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3224, 2072, 248, 259, 23, 23, 1, 'tiles/alexander-grey-VpnCgrlHU7A-unsplash-23.jpg', '<p><a href="">Alexander Grey</a> | <a href="">Unsplash</a></p><p>2021', 'jpg'] ,
+[3224, 2331, 248, 259, 47, 47, 1, 'tiles/ehimetalor-akhere-unuabona-0y6qND61z-w-unsplash-47.jpg', '<p><a href="">Ehimetalor Akhere Unuabona</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3224, 259, 248, 259, 161, 161, 1, 'tiles/alex-hlaing-YxYdxQjR9r4-unsplash-161.jpg', '<p><a href="">Alex Hlaing </a> | <a href="">Unsplash</a></p><p>2024 | Venice Beach, Los Angeles, CA, USA', 'jpg'] ,
+[3224, 2590, 248, 259, 217, 217, 1, 'tiles/kristel-hayes-FUc_wacdLOk-unsplash-217.jpg', '<p><a href="">Kristel Hayes </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3224, 2849, 248, 251, 3, 3, 1, 'tiles/simon-daoudi-n3mgvMn-M2I-unsplash-3.jpg', '<p><a href="">Simon Daoud</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3224, 518, 248, 259, 35, 35, 1, 'tiles/barbara-burgess-TlnWON8mdac-unsplash-35.jpg', '<p><a href="">Barbara Burgess</a> | <a href="">Unsplash</a></p><p>2021 | Honolulu, Honolulu, United States', 'jpg'] ,
+[3224, 777, 248, 259, 232, 232, 1, 'tiles/ehimetalor-akhere-unuabona-NVvWE-k_5JQ-unsplash-232.jpg', '<p><a href="">Ehimetalor Akhere Unuabona </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3472, 0, 248, 259, 88, 88, 1, 'tiles/patrick-perkins-1v5_mKSHm-Y-unsplash-88.jpg', '<p><a href="">Patrick Perkins</a> | <a href="">Unsplash</a></p><p>2022 | San Francisco', 'jpg'] ,
+[3472, 1036, 248, 259, 197, 197, 1, 'tiles/graham-klingler-cBHf-ZODYho-unsplash-197.jpg', '<p><a href="">Graham Klingler </a> | <a href="">Unsplash</a></p><p>A large group of people marching down a street ', 'jpg'] ,
+[3472, 1295, 248, 259, 115, 115, 1, 'tiles/redens-desrosiers-RnstlFUS4Rc-unsplash-115.jpg', '<p><a href="">Redens Desrosiers </a> | <a href="">Unsplash</a></p><p>2023 | Elizabeth, NJ, USA', 'jpg'] ,
+[3472, 1554, 248, 259, 225, 225, 1, 'tiles/jesus-boscan-uk078sotWrc-unsplash-225.jpg', '<p><a href="">Jesus Boscan </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3472, 1813, 248, 259, 7, 7, 1, 'tiles/cdc-FSRxDhA5x5s-unsplash-7.jpg', '<p><a href="">Cd</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3472, 2072, 248, 259, 18, 18, 1, 'tiles/alexander-grey-jU40gA2UDmA-unsplash-18.jpg', '<p><a href="">Alexander Grey</a> | <a href="">Unsplash</a></p><p>This is for all the essential workers everywhere. Thank you all. Stay safe, sending love. | 2020 ', 'jpg'] ,
+[3472, 2331, 248, 259, 83, 83, 1, 'tiles/mike-von-_DS5mXLZxWE-unsplash-83.jpg', '<p><a href="">Mike Von</a> | <a href="">Unsplash</a></p><p>2021 | Calipatria, CA, USA', 'jpg'] ,
+[3472, 259, 248, 259, 53, 53, 1, 'tiles/kevin-james-shay-Yk0fNrySs8Y-unsplash-53.jpg', '<p><a href="">Kevin James Shay</a> | <a href="">Unsplash</a></p><p>Demonstrators march down a busy street during George Floyd protest on June 5, 2020, in Rockville, Maryland. #GeorgeFloyd #BlackLivesMatter', 'jpg'] ,
+[3472, 2590, 248, 259, 79, 79, 1, 'tiles/bernie-almanzar-GSrYT193lJk-unsplash-79.jpg', '<p><a href="">Bernie Almanzar</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3472, 2849, 248, 251, 57, 57, 1, 'tiles/kevin-turcios-jzp9_Y9_O1I-unsplash-57.jpg', '<p><a href="">Kevin Turcios</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3472, 518, 248, 259, 237, 237, 1, 'tiles/ehimetalor-akhere-unuabona-e3pLtn35PxQ-unsplash-237.jpg', '<p><a href="">Ehimetalor Akhere Unuabona </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3472, 777, 248, 259, 120, 120, 1, 'tiles/pexels-mccutcheon-2433140-120.jpg', '<p><a href="">Pexel</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3720, 0, 248, 259, 82, 82, 1, 'tiles/pexels-blue-8562969-82.jpg', '<p><a href=""></a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3720, 1036, 248, 259, 138, 138, 1, 'tiles/heather-mount-RoEp74AUzoI-unsplash-138.jpg', '<p><a href="">Heather Mount </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3720, 1295, 248, 259, 178, 178, 1, 'tiles/ilia-bronskiy-zmLoX9MB9D0-unsplash-178.jpg', '<p><a href="">Ilia Bronskiy </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3720, 1554, 248, 259, 22, 22, 1, 'tiles/alexander-grey-H5mmL4aLW0E-unsplash-22.jpg', '<p><a href="">Alexander Grey</a> | <a href="">Unsplash</a></p><p>Portrait of a person holding a rainbow flag. | 2018 | Ogden, United States', 'jpg'] ,
+[3720, 1813, 248, 259, 38, 38, 1, 'tiles/clay-banks-Tt0kNJtnFNE-unsplash-38.jpg', '<p><a href="">Clay Banks</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3720, 2072, 248, 259, 37, 37, 1, 'tiles/barbara-burgess-N7CFNJo-QH8-unsplash-37.jpg', '<p><a href="">Barbara Burgess</a> | <a href="">Unsplash</a></p><p>April 6, 2025 | Tennessee, USA', 'jpg'] ,
+[3720, 2331, 248, 259, 41, 41, 1, 'tiles/danielle-claude-belanger-J2tMrVcx0WY-unsplash-41.jpg', '<p><a href="">Danielle Claude Belanger</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3720, 259, 248, 259, 31, 31, 1, 'tiles/barbara-zandoval-jYoxbGPCVFo-unsplash-31.jpg', '<p><a href="">Barbara Zandoval</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3720, 2590, 248, 259, 218, 218, 1, 'tiles/logan-weaver-lgnwvr-8L1APbMbviY-unsplash-218.jpg', '<p><a href="">Logan Weaver Lgnwvr </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3720, 2849, 248, 251, 131, 131, 1, 'tiles/heather-mount-Os0KVjYD8fc-unsplash-131.jpg', '<p><a href="">Heather Mount </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3720, 518, 248, 259, 228, 228, 1, 'tiles/jon-tyson-ba5vMkxLzFU-unsplash-228.jpg', '<p><a href="">Jon Tyson </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3720, 777, 248, 259, 127, 127, 1, 'tiles/heather-mount-T8X_rtomfJc-unsplash-127.jpg', '<p><a href="">Heather Mount </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3968, 0, 248, 259, 137, 137, 1, 'tiles/heather-mount-6RzCutNSMK4-unsplash-137.jpg', '<p><a href="">Heather Mount </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3968, 1036, 248, 259, 196, 196, 1, 'tiles/jan-budomo-2H-834K8NHw-unsplash-196.jpg', '<p><a href="">Jan Budomo </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3968, 1295, 248, 259, 221, 221, 1, 'tiles/jeff-ackley-6oHKXPdPY0o-unsplash-221.jpg', '<p><a href="">Jeff Ackley </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3968, 1554, 248, 259, 140, 140, 1, 'tiles/heather-mount-vgxp8M18U50-unsplash-140.jpg', '<p><a href="">Heather Mount </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3968, 1813, 248, 259, 14, 14, 1, 'tiles/christian-lue-pSgO9pMVVUI-unsplash-14.jpg', '<p><a href="">Christian Lue</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3968, 2072, 248, 259, 6, 6, 1, 'tiles/christian-lue-LPwLkzl1nd8-unsplash-6.jpg', '<p><a href="">Christian Lu</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3968, 2331, 248, 259, 8, 8, 1, 'tiles/charliewarl-7duMar1Yo5s-unsplash-8.jpg', '<p><a href="">Charliewar</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3968, 259, 248, 259, 54, 54, 1, 'tiles/julia-mouketo-1tNv8l6AvJk-unsplash-54.jpg', '<p><a href="">Julia Mouketo</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3968, 2590, 248, 259, 1, 1, 1, 'tiles/zhen-yao-SoTyCEADTgE-unsplash-1.jpg', '<p><a href="">Zhen Ya</a> | <a href="">Unsplash</a></p><p>2024 | Pittsburgh, PA, USA', 'jpg'] ,
+[3968, 2849, 248, 251, 198, 198, 1, 'tiles/guido-coppa-IPhIW5W1GwI-unsplash-198.jpg', '<p><a href="">Guido Coppa </a> | <a href="">Unsplash</a></p><p>2019 | San Francisco, CA, USA', 'jpg'] ,
+[3968, 518, 248, 259, 34, 34, 1, 'tiles/barbara-burgess-_gf7LV6NVIo-unsplash-34.jpg', '<p><a href="">Barbara Burgess</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[3968, 777, 248, 259, 166, 166, 1, 'tiles/ethan-hasenfratz-OPeD0Kb6y_c-unsplash-166.jpg', '<p><a href="">Ethan Hasenfratz </a> | <a href="">Unsplash</a></p><p>Self expression portraits? Always! I learned a lot from these photos. | 2022 | Ohio', 'jpg'] ,
+[4216, 0, 248, 259, 102, 102, 1, 'tiles/patrick-perkins-Ankb7ZGb1Gc-unsplash-102.jpg', '<p><a href="">Patrick Perkins </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4216, 1036, 248, 259, 5, 5, 1, 'tiles/christine-von-raesfeld-EoZXzh82wiI-unsplash-5.jpg', '<p><a href="">Christine Von Raesfel</a> | <a href="">Unsplash</a></p><p>2020 | Sonoma State University, California, USA', 'jpg'] ,
+[4216, 1295, 248, 259, 80, 80, 1, 'tiles/berenice-melis-cNKnDxNZ35I-unsplash-80.jpg', '<p><a href="">Berenice Melis</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4216, 1554, 248, 259, 234, 234, 1, 'tiles/ehimetalor-akhere-unuabona-tQ5BNXR1YqI-unsplash-234.jpg', '<p><a href="">Ehimetalor Akhere Unuabona </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4216, 1813, 248, 259, 223, 223, 1, 'tiles/john-cardamone-daRGSCIzF78-unsplash-223.jpg', '<p><a href="">John Cardamone </a> | <a href="">Unsplash</a></p><p>A street crossing painted in the colors of a rainbow for Pride month | Jan 27 2025 | North Carolina, USA', 'jpg'] ,
+[4216, 2072, 248, 259, 33, 33, 1, 'tiles/barbara-zandoval-PH2h-Mzkh4Q-unsplash-33.jpg', '<p><a href="">Barbara Zandoval</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4216, 2331, 248, 259, 219, 219, 1, 'tiles/jes-harrison-73Ax7e3CqAU-unsplash-219.jpg', '<p><a href="">Jes Harrison </a> | <a href="">Unsplash</a></p><p>2023', 'jpg'] ,
+[4216, 259, 248, 259, 202, 202, 1, 'tiles/gayatri-malhotra-c1s02_3mO-o-unsplash-202.jpg', '<p><a href="">Gayatri Malhotra </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4216, 2590, 248, 259, 236, 236, 1, 'tiles/ehimetalor-akhere-unuabona-LxRucJOwqRI-unsplash-236.jpg', '<p><a href="">Ehimetalor Akhere Unuabona </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4216, 2849, 248, 251, 52, 52, 1, 'tiles/joshua-hoehne-Axfa9PkrRPQ-unsplash-52.jpg', '<p><a href="">Joshua Hoehne</a> | <a href="">Unsplash</a></p><p>2023 | Cache Valley Utah', 'jpg'] ,
+[4216, 518, 248, 259, 155, 155, 1, 'tiles/aiden-craver-MzytRs4j5n4-unsplash-155.jpg', '<p><a href="">Aiden Craver </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4216, 777, 248, 259, 12, 12, 1, 'tiles/charliewarl-SAXnHxu8PS8-unsplash-12.jpg', '<p><a href="">Charliewarl</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4464, 0, 248, 259, 29, 29, 1, 'tiles/barbara-provenzano-azH9d_hjZGw-unsplash-29.jpg', '<p><a href="">Barbara Provenzano</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4464, 1036, 248, 259, 67, 67, 1, 'tiles/maximilian-muller-hhtHEaI1wq0-unsplash-67.jpg', '<p><a href="">Maximilian Muller</a> | <a href="">Unsplash</a></p><p>Woman wearing a lgbtq flag walking on a square | 2023 ', 'jpg'] ,
+[4464, 1295, 248, 259, 100, 100, 1, 'tiles/mike-von-BRBIrWbmeIg-unsplash-100.jpg', '<p><a href="">Mike Von </a> | <a href="">Unsplash</a></p><p>George Floyd Protest | 2020 | Los Angeles, CA, USA', 'jpg'] ,
+[4464, 1554, 248, 259, 55, 55, 1, 'tiles/julia-mouketo-779dtuKJpK8-unsplash-55.jpg', '<p><a href="">Julia Mouketo</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4464, 1813, 248, 259, 103, 103, 1, 'tiles/patrick-perkins-dz5q1Ao9ZJU-unsplash-103.jpg', '<p><a href="">Patrick Perkins </a> | <a href="">Unsplash</a></p><p>2022 | San Francisco', 'jpg'] ,
+[4464, 2072, 248, 259, 209, 209, 1, 'tiles/lena-langmeyer-J_PRi8uO0Ck-unsplash-209.jpg', '<p><a href="">Lena Langmeyer </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4464, 2331, 248, 259, 66, 66, 1, 'tiles/mari-vlassi-zDkkLr4h3Sc-unsplash-66.jpg', '<p><a href="">Mari Vlassi</a> | <a href="">Unsplash</a></p><p>People walking on street during daytime', 'jpg'] ,
+[4464, 259, 248, 259, 139, 139, 1, 'tiles/heather-mount-JHYwVm7-2_8-unsplash-139.jpg', '<p><a href="">Heather Mount </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4464, 2590, 248, 259, 212, 212, 1, 'tiles/marek-studzinski-2smsQsfre3A-unsplash-212.jpg', '<p><a href="">Marek Studzinski </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4464, 2849, 248, 251, 71, 71, 1, 'tiles/belinda-fewings-0rF0aJB1jkA-unsplash-71.jpg', '<p><a href="">Belinda Fewings</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4464, 518, 248, 259, 130, 130, 1, 'tiles/huma-h-yardim-ZQxQFwvsODY-unsplash-130.jpg', '<p><a href="">Huma H Yardim </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4464, 777, 248, 259, 231, 231, 1, 'tiles/ehimetalor-akhere-unuabona-CH79GileMc0-unsplash-231.jpg', '<p><a href="">Ehimetalor Akhere Unuabona </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4712, 0, 248, 259, 105, 105, 1, 'tiles/patrick-perkins-j-CD-cg3qEc-unsplash-105.jpg', '<p><a href="">Patrick Perkins </a> | <a href="">Unsplash</a></p><p>Protest against Israel & US aid to Israel and against the Palestinian genocide on December 23rd | 2023 | San Francisco', 'jpg'] ,
+[4712, 1036, 248, 259, 154, 154, 1, 'tiles/alexander-grey-9J1NuJ7Dgz4-unsplash-154.jpg', '<p><a href="">Alexander Grey </a> | <a href="">Unsplash</a></p><p>Transgender letters for gender identity. | 2020 ', 'jpg'] ,
+[4712, 1295, 248, 259, 72, 72, 1, 'tiles/brian-kyed-f3avUuzMi2U-unsplash-72.jpg', '<p><a href="">Brian Kyed</a> | <a href="">Unsplash</a></p><p>2019 | New York, USA', 'jpg'] ,
+[4712, 1554, 248, 259, 86, 86, 1, 'tiles/nathan-dumlao-aZk8disXKQ4-unsplash-86.jpg', '<p><a href="">Nathan Dumlao</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4712, 1813, 248, 259, 208, 208, 1, 'tiles/mana5280-EAHh8HeNRsI-unsplash-208.jpg', '<p><a href="">Mana5280 </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4712, 2072, 248, 259, 75, 75, 1, 'tiles/bertrand-colombo-hm58A-ztiIQ-unsplash-75.jpg', '<p><a href="">Bertrand Colombo</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4712, 2331, 248, 259, 152, 152, 1, 'tiles/aiden-craver-1nlSQnb6nVc-unsplash-152.jpg', '<p><a href="">Aiden Craver </a> | <a href="">Unsplash</a></p><p>2022 | New Orleans, LA', 'jpg'] ,
+[4712, 259, 248, 259, 98, 98, 1, 'tiles/mon-sag-anl0N7JKQCg-unsplash-98.jpg', '<p><a href="">Mon Sag</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4712, 2590, 248, 259, 233, 233, 1, 'tiles/ehimetalor-akhere-unuabona-PIxYsSw9Rb4-unsplash-233.jpg', '<p><a href="">Ehimetalor Akhere Unuabona </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4712, 2849, 248, 251, 143, 143, 1, 'tiles/heather-mount-ryLFw0Sp_RA-unsplash-143.jpg', '<p><a href="">Heather Mount </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4712, 518, 248, 259, 36, 36, 1, 'tiles/barbara-burgess-Gptwo30wMuc-unsplash-36.jpg', '<p><a href="">Barbara Burgess</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[4712, 777, 248, 259, 187, 187, 1, 'tiles/ilia-bronskiy-rTXxVtMn8PA-unsplash-187.jpg', '<p><a href="">Ilia Bronskiy </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[496, 0, 248, 259, 224, 224, 1, 'tiles/jasmine-Whd3G13HjJY-unsplash-224.jpg', '<p><a href="">Jasmine </a> | <a href="">Unsplash</a></p><p>People demonstrate against abortion legislation in Guam. | 2022 | Guam, USA', 'jpg'] ,
+[496, 1036, 248, 259, 25, 25, 1, 'tiles/alyssa-baches-b_r08ERLzwg-unsplash-25.jpg', '<p><a href="">Alyssa Baches</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[496, 1295, 248, 259, 240, 240, 1, 'tiles/ehimetalor-akhere-unuabona-OwMta0L8jpk-unsplash-240.jpg', '<p><a href="">Ehimetalor Akhere Unuabona </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[496, 1554, 248, 259, 184, 184, 1, 'tiles/jan-budomo-H_efbdKwvrY-unsplash-184.jpg', '<p><a href="">Jan Budomo </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[496, 1813, 248, 259, 43, 43, 1, 'tiles/denin-lawley-v1bpNoWk4WY-unsplash-43.jpg', '<p><a href="">Denin Lawley</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[496, 2072, 248, 259, 220, 220, 1, 'tiles/jose-garcia-JUqh1FyBbv4-unsplash-220.jpg', '<p><a href="">Jose Garcia </a> | <a href="">Unsplash</a></p><p>man lights and reflection | 2019 | Rodeo Drive, Beverly Hills, California, EE. UU.', 'jpg'] ,
+[496, 2331, 248, 259, 93, 93, 1, 'tiles/patrick-perkins-dtBwi16wgOs-unsplash-93.jpg', '<p><a href="">Patrick Perkins</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[496, 259, 248, 259, 89, 89, 1, 'tiles/mikhail-seleznev-xiRxIblAh9Q-unsplash-89.jpg', '<p><a href="">Mikhail Seleznev</a> | <a href="">Unsplash</a></p><p>2025', 'jpg'] ,
+[496, 2590, 248, 259, 211, 211, 1, 'tiles/manny-becerra-m5Wxm98QMm0-unsplash-211.jpg', '<p><a href="">Manny Becerra </a> | <a href="">Unsplash</a></p><p>Pride Parade 2021. The haze in the background is from the summer wildfires in both California and Nevada. Reno, NV, USA', 'jpg'] ,
+[496, 2849, 248, 251, 168, 168, 1, 'tiles/faiza-haji-MP1cRB6CXEc-unsplash-168.jpg', '<p><a href="">Faiza Haji </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[496, 518, 248, 259, 20, 20, 1, 'tiles/alexander-grey-JngP0kqu6JQ-unsplash-20.jpg', '<p><a href="">Alexander Grey</a> | <a href="">Unsplash</a></p><p>LGBTQIA Plus. | 2020', 'jpg'] ,
+[496, 777, 248, 259, 39, 39, 1, 'tiles/denin-lawley-ThXxRNDdSt4-unsplash-39.jpg', '<p><a href="">Denin Lawley</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[744, 0, 248, 259, 65, 65, 1, 'tiles/mike-von-aBblEwIZgTs-unsplash-65.jpg', '<p><a href="">Mike Von</a> | <a href="">Unsplash</a></p><p>2020 | Downtown, Los Angeles, CA, USA', 'jpg'] ,
+[744, 1036, 248, 259, 182, 182, 1, 'tiles/isaac-n-TMto26h89i0-unsplash-182.jpg', '<p><a href="">Isaac N </a> | <a href="">Unsplash</a></p><p>2025 | New York', 'jpg'] ,
+[744, 1295, 248, 259, 108, 108, 1, 'tiles/patrick-perkins-oLzPii3A_PE-unsplash-108.jpg', '<p><a href="">Patrick Perkins </a> | <a href="">Unsplash</a></p><p>2022 | San Francisco', 'jpg'] ,
+[744, 1554, 248, 259, 186, 186, 1, 'tiles/isaac-n-PyaEhfnWv_0-unsplash-186.jpg', '<p><a href="">Isaac N </a> | <a href="">Unsplash</a></p><p>Black trans life is sacred. Period.', 'jpg'] ,
+[744, 1813, 248, 259, 13, 13, 1, 'tiles/chris-j-davis-HkdO5viINbY-unsplash-13.jpg', '<p><a href="">Chris J Davis</a> | <a href="">Unsplash</a></p><p>2021 | Buffalo, NY', 'jpg'] ,
+[744, 2072, 248, 259, 50, 50, 1, 'tiles/kaitlan-balsam-ycCm6MGLY-8-unsplash-50.jpg', '<p><a href="">Kaitlan Balsam</a> | <a href="">Unsplash</a></p><p>2019', 'jpg'] ,
+[744, 2331, 248, 259, 213, 213, 1, 'tiles/mana5280-XblMxB8A6vk-unsplash-213.jpg', '<p><a href="">Mana5280 </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[744, 259, 248, 259, 185, 185, 1, 'tiles/jake-schumacher-Hu9AKW10Ez0-unsplash-185.jpg', '<p><a href="">Jake Schumacher </a> | <a href="">Unsplash</a></p><p>Man holding Pride flag walks through a park. | 2020 | Capitol Hill, Seattle, WA, USA', 'jpg'] ,
+[744, 2590, 248, 259, 64, 64, 1, 'tiles/mercedes-mehling-icJ0b6-Dzmk-unsplash-64.jpg', '<p><a href="">Mercedes Mehling</a> | <a href="">Unsplash</a></p><p>"Again We Rise"   Mural dedicated to George Floyd and other victims of racial violence by Portland artists Ryan Adams, Jason McDonald and Mike Rich | 2020 | Portland, ME, USA', 'jpg'] ,
+[744, 2849, 248, 251, 119, 119, 1, 'tiles/pexels-ivan-samkov-6437041-119.jpg', '<p><a href="">Pexels</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[744, 518, 248, 259, 96, 96, 1, 'tiles/mon-sag-KVuF-SCgaGM-unsplash-96.jpg', '<p><a href="">Mon Sag</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[744, 777, 248, 259, 68, 68, 1, 'tiles/mario-verduzco-j0AugU_ypPc-unsplash-68.jpg', '<p><a href="">Mario Verduzco</a> | <a href="">Unsplash</a></p><p>People enjoying a trip to the museum, discussing some of the art pieces | 2023 | Seattle, WA, USA', 'jpg'] ,
+[992, 0, 248, 259, 84, 84, 1, 'tiles/nathan-dumlao-06F9Px_PxVI-unsplash-84.jpg', '<p><a href="">Nathan Dumlao</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[992, 1036, 248, 259, 188, 188, 1, 'tiles/ilia-bronskiy-lFPcEaueZUg-unsplash-188.jpg', '<p><a href="">Ilia Bronskiy </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[992, 1295, 248, 259, 214, 214, 1, 'tiles/leemar-gaskin-ZZ6TvYO1WME-unsplash-214.jpg', '<p><a href="">Leemar Gaskin </a> | <a href="">Unsplash</a></p><p>2025 | Northalsted, Chicago, IL, USA', 'jpg'] ,
+[992, 1554, 248, 259, 192, 192, 1, 'tiles/jan-budomo-OVfwNqvdhhE-unsplash-192.jpg', '<p><a href="">Jan Budomo </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[992, 1813, 248, 259, 44, 44, 1, 'tiles/denin-lawley-ZZrNc-sP32Y-unsplash-44.jpg', '<p><a href="">Denin Lawley</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[992, 2072, 248, 259, 78, 78, 1, 'tiles/bertrand-colombo-kdjTbALnSm0-unsplash-78.jpg', '<p><a href="">Bertrand Colombo</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[992, 2331, 248, 259, 56, 56, 1, 'tiles/kalea-morgan--R3pWoWJmTY-unsplash-56.jpg', '<p><a href="">Kalea Morgan</a> | <a href="">Unsplash</a></p><p>A peaceful black lives matter protest, holding a sign that says "no justice no peace" in downtown within the streets | 2020 | Nebraska, USA', 'jpg'] ,
+[992, 259, 248, 259, 191, 191, 1, 'tiles/jan-budomo-n9iJZFjN_94-unsplash-191.jpg', '<p><a href="">Jan Budomo </a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[992, 2590, 248, 259, 159, 159, 1, 'tiles/aiden-craver-rd2xWsvbyV8-unsplash-159.jpg', '<p><a href="">Aiden Craver </a> | <a href="">Unsplash</a></p><p>2022', 'jpg'] ,
+[992, 2849, 248, 251, 167, 167, 1, 'tiles/frankie-cordoba-VVi4o1Twh8E-unsplash-167.jpg', '<p><a href="">Frankie Cordoba </a> | <a href="">Unsplash</a></p><p>2024 | Miami, FL', 'jpg'] ,
+[992, 518, 248, 259, 4, 4, 1, 'tiles/saimy-patel-uQQongzkncc-unsplash-4.jpg', '<p><a href="">Saimy Pate</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+[992, 777, 248, 259, 118, 118, 1, 'tiles/pexels-ivan-samkov-6437346-118.jpg', '<p><a href="">Pexels</a> | <a href="">Unsplash</a></p><p>Related Instagram post: <a href="https://www.instagram.com/p/DJm8oOlSaoS/">@tgijusticeproject</a></p>', 'jpg'] ,
+		];
+
+        // Get the tile at the specified position x,y in pixels
+        var getTileObject = function (x,y) {
+            var l = tileArrays.length;
+            for (n=0; n<l; ++n) {
+                tileInfo = tileArrays[n];
+                if (tileInfo[0] <= x && tileInfo[0]+tileInfo[2] >= x && tileInfo[1] <= y && tileInfo[1]+tileInfo[3] >= y) {
+                    return { 
+                        tileLeft:tileInfo[0],
+                        tileTop:tileInfo[1],
+                        tileWidth:tileInfo[2],
+                        tileHeight:tileInfo[3],
+                        tileRight:tileInfo[0]+tileInfo[1],
+                        tileBottom:tileInfo[2]+tileInfo[3],
+                        tileNr:tileInfo[4],
+                        imageNr:tileInfo[5],
+                        imageUsageCount:tileInfo[6],
+                        imageUrl:tileInfo[7],
+                        imageName:tileInfo[8],
+                        imageExtension:tileInfo[9],
+                    };
+                }
+            }
+            return null; // not found
+        }
+
+        var showPopUpWindow = function(popUpText, callback) {
+            callback.showPopUp({maxWidth:300, popUpText:popUpText}, callback.args);
+        }
+
+        // This function builds the PopUp window information for the specified Tile. 
+        // Returns an object with following members:
+        //  maxWidth: maximum width of the popup window.
+        //  popUpText: HTML text to show in the popup window.
+        var getPopUpFullText = function (x,y,callback) {
+            var tile = getTileObject(x,y);
+            popUpText = tile === null ? "No information available" :
+                        (tile.imageUrl == null? '' : '<a href="' + tile.imageUrl + '" target="TileImage"><img src="' + tile.imageUrl + '" width=300 /><br></a>')
+                        + 'Tile Nr.: ' + tile.tileNr + '<br>'
+                        + 'Tile Size: ' + tile.tileWidth + ' x ' + tile.tileHeight + '<br>'
+                        + 'Tile Position: ' + tile.tileLeft + ' x ' + tile.tileTop + '<br>'
+                        + 'Image Nr.: ' + tile.imageNr + '<br>'
+                        + 'Image Name: ' + tile.imageName + '<br>'
+                        + 'Image Extension: ' + tile.imageExtension + '<br>'
+                        + 'Image Usage Count: ' + tile.imageUsageCount + '<br>';
+            showPopUpWindow(popUpText,callback);
+        };
+
+        // PopUp showing only the image
+        var getPopUpImageOnly = function (x,y,callback) {
+            var tile = getTileObject(x,y);
+            popUpText = tile === null || tile.imageUrl === null ? "No information available" : '<a href="' + tile.imageUrl + '" target="TileImage"><img src="' + tile.imageUrl + '" width=300 /><br></a>';
+            showPopUpWindow(popUpText,callback);
+        };
+
+        // PopUp showing the image with name and usage count
+        var getPopUpImageWithName = function (x,y,callback) {
+            var tile = getTileObject(x,y);
+            popUpText = tile === null || tile.imageUrl === null ? "No information available" : '<a href="' + tile.imageUrl + '" target="TileImage"><img src="' + tile.imageUrl + '" width=300 /><br></a>' 
+                + '<center>' + tile.imageName + ' (used ' + tile.imageUsageCount + ' times)</center>';
+            showPopUpWindow(popUpText,callback);
+        };
+
+        // PopUp showing only ImageNr
+        var getPopUpTextOnly = function (x,y,callback) {
+            var tile = getTileObject(x,y);
+            popUpText = tile === null || tile.imageUrl === null ? "No information available" : '<center>image #' + tile.imageNr + ' used ' + tile.imageUsageCount + ' times</center>'; 
+            showPopUpWindow(popUpText,callback);
+        };
+
+        // Get the Help Text to show when clicking on the ? button
+        var getHelpText = function () {
+            return {
+                maxWidth: 500,
+                minWidth: 300,
+                popUpText:    '<table class="help-table"><thead><tr><th></th><th>Mouse</th><th>Touchscreen</th><th>Keyboard</th></tr></thead><tbody>' 
+                            + '<tr><td>Zoom In</td><td>Wheel or Doubleclick</td><td>Enlarge with two Fingers</td><td>+</td></tr><tr>'
+                            + '<tr><td>Zoom Out</td><td>Wheel or Shift + Doubleclick</td><td>Reduce with two Fingers</td><td>-</td></tr><tr>'
+                            + '<tr><td>Pan</td><td>Left Click + Move</td><td>Short Press + Move</td><td>Arrow Keys</td></tr><tr>'
+                            + '<tr><td>Show Info</td><td>Right Click</td><td>Long Press</td><td></td></tr><tr>'
+                            + '<tr><td>Hide Info</td><td>Left Click on map</td><td>Short Press on map</td><td>Esc</td></tr><tr>'
+                            + '<tr><td>Zoom area</td><td>Left Click + Shift + Move</td><td></td><td></td></tr><tr>'
+                            + '</tbody></table>',
+            }
+        }; 
+
+        // This function builds the search text.
+        // This function is invoked once when loading the mosaic.
+        // It returns an array with 3 elements: x,y,title.
+        // If two tiles have the same title then it will be displayed only once in the search list.
+        var getSearchText = function () {
+            var l = tileArrays.length;
+            var searchList = new Array(l);
+            for (n=0; n<l; ++n) {
+                tileInfo = tileArrays[n];
+                searchList[n] = [tileInfo[0]+tileInfo[2]/2, tileInfo[1]+tileInfo[3]/2, tileInfo[8]];
+            }
+            return searchList;
+        };
+
+        // Map Options
+        var mapOptions = {
+            getPopUpText: getPopUpImageWithName, // function that retrieves the HTML text to show for a tile. Can be null to avoid popup.
+            getHelpText: getHelpText, // function that retrieves the HTML text to show as PopUp for a help. (can be null to hide the ? button)
+            attribution: "Mosaic created by AndreaMosaic", // set my own attribution text, as html text. Can be null to have no additional attribution.
+            keepPopUpInView: true, // if true the map will autopan so that the popup window is awlays shown.
+            fullscreenControl: !navigator.vendor.match(/apple/i),
+            getSearchText: getSearchText,    // function that retrieves the text of each tile that will be searched. Null to avoid search.
+            searchMiddleOfText: true, // false: search elements only by initial text
+            searchCaseInsensitive: true, // false: search elements in case sensitive text
+            searchAutocomplete: true, // complete input with first suggested result and select this filled-in text.
+            searchAutoHideMarker: true, // remove circle and marker on search control collapsed
+            searchMarkerFound: null, // specify a L.Icon or null for the default
+            searchText:'Tile...', // text for the Search
+            searchTextError:'Tile not found',    //error message
+            searchTextCancel: 'Cancel',          //title in cancel button        
+            searchTextPlaceholder: 'Search Tile...',   //placeholder value         
+            searchContainer: '', // container id to insert Search Control
+            zoomControl: true, // false to not show a zoom control with +/- buttons
+            panInertia: null, // can be null, true or false. Inertia feels nice on touchscreen devices
+            panInertiaDeceleration: null, // can be null or a value in pixels/second.
+        };
+
+        // Show the Mosaic
+        ShowAndreaMosaic(
+            'AndreaMosaic', // Div ID
+            'mosaic/', // Base URL of the Mosaic Tiles
+            4960, // Width in Pixels
+            3100, // Height in Pixels
+            mapOptions
+            );
+    </script>
+</body>
+</html>
